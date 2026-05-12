@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>MotionShop — 让产品图动起来</title>
+<title>MotionShop — Animate Your Product Images with AI</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -21,6 +21,10 @@
 html { scroll-behavior: smooth; }
 body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; }
 
+/* PAGE SYSTEM */
+.page { display: none; }
+.page.active { display: block; }
+
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   display: flex; align-items: center; justify-content: space-between;
@@ -28,7 +32,7 @@ nav {
   background: rgba(10,10,15,0.85); backdrop-filter: blur(16px);
   border-bottom: 0.5px solid var(--border);
 }
-.nav-logo { font-size: 18px; font-weight: 600; letter-spacing: -0.5px; }
+.nav-logo { font-size: 18px; font-weight: 600; letter-spacing: -0.5px; cursor: pointer; }
 .nav-logo span { color: var(--accent2); }
 .nav-right { display: flex; gap: 10px; align-items: center; }
 .nav-user { font-size: 12px; color: var(--text2); max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -38,6 +42,7 @@ nav {
 .nav-btn-fill { background: var(--accent); color: #fff; }
 .nav-btn-fill:hover { opacity: 0.85; }
 
+/* MODAL */
 .modal-overlay { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); align-items: center; justify-content: center; }
 .modal-overlay.open { display: flex; }
 .modal { background: var(--bg2); border: 0.5px solid var(--border2); border-radius: var(--radius-lg); padding: 2rem; width: 100%; max-width: 400px; margin: 1rem; position: relative; }
@@ -65,6 +70,7 @@ nav {
 .msg-error { background: rgba(248,113,113,0.1); color: var(--red); }
 .msg-success { background: var(--green-bg); color: var(--green); }
 
+/* HERO */
 .hero { padding: 140px 2rem 80px; text-align: center; max-width: 760px; margin: 0 auto; }
 .hero-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-family: 'DM Mono', monospace; color: var(--accent2); background: var(--accent-bg); border: 0.5px solid rgba(108,99,255,0.3); padding: 4px 12px; border-radius: 99px; margin-bottom: 1.5rem; }
 .hero h1 { font-size: clamp(36px, 6vw, 64px); font-weight: 600; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 1.25rem; }
@@ -76,10 +82,12 @@ nav {
 .btn-ghost { font-size: 15px; font-weight: 500; background: transparent; color: var(--text2); padding: 12px 28px; border-radius: var(--radius); border: 0.5px solid var(--border2); cursor: pointer; transition: all 0.15s; }
 .btn-ghost:hover { color: var(--text); background: var(--bg2); }
 
+/* SECTION */
 .section { max-width: 900px; margin: 0 auto; padding: 0 2rem 5rem; }
 .section-label { font-size: 12px; font-family: 'DM Mono', monospace; color: var(--text3); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 0.5rem; }
 .section-title { font-size: 28px; font-weight: 600; letter-spacing: -0.5px; margin-bottom: 2rem; }
 
+/* APP */
 .app-container { background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
 .app-header { padding: 1.25rem 1.5rem; border-bottom: 0.5px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
 .app-title { font-size: 15px; font-weight: 500; }
@@ -90,7 +98,6 @@ nav {
 @media (max-width: 600px) { .app-body { grid-template-columns: 1fr; } }
 .app-left { padding: 1.5rem; border-right: 0.5px solid var(--border); }
 .app-right { padding: 1.5rem; }
-
 .upload-zone { border: 1px dashed var(--border2); border-radius: var(--radius); padding: 2rem 1rem; text-align: center; cursor: pointer; transition: all 0.2s; background: var(--bg3); margin-bottom: 1rem; }
 .upload-zone:hover { border-color: var(--accent); background: var(--accent-bg); }
 .upload-icon { font-size: 32px; margin-bottom: 8px; }
@@ -102,12 +109,10 @@ nav {
 .opt.active { background: var(--accent-bg); border-color: rgba(108,99,255,0.4); color: var(--accent2); }
 .opt.locked { opacity: 0.38; cursor: not-allowed; }
 .lock-pill { font-size: 10px; padding: 2px 6px; background: rgba(245,158,11,0.1); color: var(--amber); border-radius: 99px; font-family: 'DM Mono', monospace; }
-
 .login-wall { background: var(--bg3); border: 1px dashed var(--border2); border-radius: var(--radius); padding: 1.5rem; text-align: center; margin-top: 0.5rem; }
 .login-wall-icon { font-size: 28px; margin-bottom: 8px; }
 .login-wall-text { font-size: 13px; color: var(--text2); margin-bottom: 1rem; }
 .login-wall-btn { font-size: 13px; font-weight: 500; background: var(--accent); color: #fff; padding: 9px 22px; border-radius: var(--radius); border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; }
-
 .gen-btn { width: 100%; padding: 11px; background: var(--accent); color: #fff; border: none; border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 0.5rem; transition: opacity 0.15s; }
 .gen-btn:hover { opacity: 0.85; }
 .gen-btn:disabled { opacity: 0.4; cursor: not-allowed; }
@@ -116,7 +121,6 @@ nav {
 .quota-count { font-size: 12px; color: var(--text3); }
 .quota-track { height: 3px; background: var(--bg3); border-radius: 2px; overflow: hidden; }
 .quota-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.5s ease; }
-
 .preview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1rem; }
 .p-card { background: var(--bg3); border: 0.5px solid var(--border); border-radius: var(--radius); overflow: hidden; }
 .p-top { height: 100px; display: flex; align-items: center; justify-content: center; position: relative; }
@@ -131,11 +135,11 @@ nav {
 .p-name { font-size: 12px; font-weight: 500; }
 .p-status { font-size: 11px; color: var(--text3); margin-top: 1px; }
 .p-status.done { color: var(--green); }
-
 .upgrade-box { background: var(--accent-bg); border: 0.5px solid rgba(108,99,255,0.25); border-radius: var(--radius); padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .upgrade-text { font-size: 12px; color: var(--accent2); line-height: 1.5; }
 .upgrade-btn { font-size: 12px; font-weight: 500; background: var(--accent); color: #fff; padding: 6px 14px; border-radius: var(--radius); border: none; cursor: pointer; white-space: nowrap; font-family: 'DM Sans', sans-serif; }
 
+/* PRICING */
 .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
 .pricing-card { background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; position: relative; }
 .pricing-card.featured { border-color: rgba(108,99,255,0.5); background: linear-gradient(160deg, rgba(108,99,255,0.08) 0%, var(--bg2) 60%); }
@@ -154,8 +158,20 @@ nav {
 .plan-btn-fill { background: var(--accent); color: #fff; border: none; }
 .plan-btn-fill:hover { opacity: 0.85; }
 
+/* LEGAL PAGES */
+.legal-page { padding: 100px 2rem 4rem; max-width: 720px; margin: 0 auto; }
+.legal-page h1 { font-size: 28px; font-weight: 600; margin-bottom: 0.5rem; }
+.legal-page .updated { font-size: 13px; color: var(--text3); margin-bottom: 2rem; }
+.legal-page h2 { font-size: 16px; font-weight: 600; margin: 1.5rem 0 0.5rem; color: var(--text); }
+.legal-page p { font-size: 14px; color: var(--text2); line-height: 1.8; margin-bottom: 0.75rem; }
+.legal-page ul { padding-left: 1.25rem; margin-bottom: 0.75rem; }
+.legal-page ul li { font-size: 14px; color: var(--text2); line-height: 1.8; }
+.back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--accent2); cursor: pointer; margin-bottom: 1.5rem; background: none; border: none; font-family: 'DM Sans', sans-serif; }
+.back-link:hover { opacity: 0.8; }
+
 footer { border-top: 0.5px solid var(--border); padding: 2rem; text-align: center; color: var(--text3); font-size: 13px; }
-footer a { color: var(--text2); text-decoration: none; }
+footer a { color: var(--text2); text-decoration: none; cursor: pointer; }
+footer a:hover { color: var(--text); }
 
 @keyframes spin-loader { to { transform: rotate(360deg); } }
 .spinner { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin-loader 0.7s linear infinite; display: inline-block; vertical-align: middle; }
@@ -164,12 +180,12 @@ footer a { color: var(--text2); text-decoration: none; }
 <body>
 
 <nav>
-  <div class="nav-logo">Motion<span>Shop</span></div>
+  <div class="nav-logo" onclick="showPage('home')">Motion<span>Shop</span></div>
   <div class="nav-right">
     <span class="nav-user" id="navUserEmail"></span>
-    <button class="nav-btn nav-btn-ghost" id="navLoginBtn" onclick="openModal('login')" style="display:none">登入</button>
-    <button class="nav-btn nav-btn-fill" id="navSignupBtn" onclick="openModal('signup')" style="display:none">免费注册</button>
-    <button class="nav-btn nav-btn-ghost" id="navLogoutBtn" onclick="logout()" style="display:none">登出</button>
+    <button class="nav-btn nav-btn-ghost" id="navLoginBtn" onclick="openModal('login')" style="display:none">Log in</button>
+    <button class="nav-btn nav-btn-fill" id="navSignupBtn" onclick="openModal('signup')" style="display:none">Get started free</button>
+    <button class="nav-btn nav-btn-ghost" id="navLogoutBtn" onclick="logout()" style="display:none">Log out</button>
   </div>
 </nav>
 
@@ -177,165 +193,270 @@ footer a { color: var(--text2); text-decoration: none; }
 <div class="modal-overlay" id="authModal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">×</button>
-    <div class="modal-title">欢迎使用 MotionShop</div>
-    <div class="modal-sub">让您的电商产品图动起来</div>
+    <div class="modal-title">Welcome to MotionShop</div>
+    <div class="modal-sub">Animate your product images with AI</div>
     <div class="modal-tabs">
-      <button class="modal-tab active" id="tabLogin" onclick="switchTab('login')">登入</button>
-      <button class="modal-tab" id="tabSignup" onclick="switchTab('signup')">注册</button>
+      <button class="modal-tab active" id="tabLogin" onclick="switchTab('login')">Log in</button>
+      <button class="modal-tab" id="tabSignup" onclick="switchTab('signup')">Sign up</button>
     </div>
     <div class="form-group">
-      <label class="form-label">电子邮件</label>
+      <label class="form-label">Email</label>
       <input class="form-input" type="email" id="authEmail" placeholder="you@example.com" />
     </div>
     <div class="form-group">
-      <label class="form-label">密码</label>
+      <label class="form-label">Password</label>
       <input class="form-input" type="password" id="authPassword" placeholder="••••••••" />
     </div>
-    <button class="btn-full btn-accent" id="emailAuthBtn" onclick="handleEmailAuth()">登入</button>
-    <div class="divider">或</div>
+    <button class="btn-full btn-accent" id="emailAuthBtn" onclick="handleEmailAuth()">Log in</button>
+    <div class="divider">or</div>
     <button class="btn-full btn-google" onclick="handleGoogleAuth()">
       <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-      使用 Google 继续
+      Continue with Google
     </button>
     <div id="authMsg"></div>
   </div>
 </div>
 
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-badge">✦ 专为电商卖家设计</div>
-  <h1>让您的产品图<br/><em>自动动起来</em></h1>
-  <p>上传产品图片，AI 自动生成专业动图视频，提升点击率与转化率，无需任何设计经验。</p>
-  <div class="hero-btns">
-    <button class="btn-primary" onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">免费试用</button>
-    <button class="btn-ghost" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">查看方案</button>
-  </div>
-</div>
-
-<!-- DEMO -->
-<div class="section" id="demo">
-  <div class="section-label">互动演示</div>
-  <div class="section-title">试试看效果</div>
-  <div class="app-container">
-    <div class="app-header">
-      <div class="app-title">MotionShop 工作台</div>
-      <div class="plan-tabs">
-        <button class="plan-tab active" onclick="setPlan('free',this)">免费版</button>
-        <button class="plan-tab" onclick="setPlan('pro',this)">专业版</button>
-        <button class="plan-tab" onclick="setPlan('ultra',this)">旗舰版</button>
-      </div>
+<!-- HOME PAGE -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div class="hero-badge">✦ Built for e-commerce sellers</div>
+    <h1>Make your product images<br/><em>come alive</em></h1>
+    <p>Upload your product photos and AI automatically generates professional animated videos — boost click-through rates and conversions with zero design skills.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">Try for free</button>
+      <button class="btn-ghost" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">View pricing</button>
     </div>
-    <div class="app-body">
-      <div class="app-left">
-        <div class="upload-zone" onclick="handleUpload()">
-          <div class="upload-icon">📦</div>
-          <div class="upload-main" id="uploadMain">点击上传产品图片</div>
-          <div class="upload-sub">JPG · PNG · WEBP，最大 10MB</div>
+  </div>
+
+  <div class="section" id="demo">
+    <div class="section-label">Live Demo</div>
+    <div class="section-title">See it in action</div>
+    <div class="app-container">
+      <div class="app-header">
+        <div class="app-title">MotionShop Workspace</div>
+        <div class="plan-tabs">
+          <button class="plan-tab active" onclick="setPlan('free',this)">Free</button>
+          <button class="plan-tab" onclick="setPlan('pro',this)">Pro</button>
+          <button class="plan-tab" onclick="setPlan('ultra',this)">Ultra</button>
         </div>
-        <div class="field-label">动画风格</div>
-        <div class="option-group">
-          <button class="opt active" onclick="setOpt(this)">旋转展示</button>
-          <button class="opt" onclick="setOpt(this)">飘浮感</button>
-          <button class="opt" onclick="setOpt(this)">光影流动</button>
+      </div>
+      <div class="app-body">
+        <div class="app-left">
+          <div class="upload-zone" onclick="handleUpload()">
+            <div class="upload-icon">📦</div>
+            <div class="upload-main" id="uploadMain">Click to upload product image</div>
+            <div class="upload-sub">JPG · PNG · WEBP, max 10MB</div>
+          </div>
+          <div class="field-label">Animation style</div>
+          <div class="option-group">
+            <button class="opt active" onclick="setOpt(this)">360° Spin</button>
+            <button class="opt" onclick="setOpt(this)">Float</button>
+            <button class="opt" onclick="setOpt(this)">Light sweep</button>
+          </div>
+          <div class="field-label">Duration</div>
+          <div class="option-group">
+            <button class="opt active" onclick="setOpt(this)">3s</button>
+            <button class="opt" onclick="setOpt(this)">6s</button>
+            <button class="opt locked" id="dur15">15s <span class="lock-pill">Pro</span></button>
+          </div>
+          <div class="field-label">Quality</div>
+          <div class="option-group">
+            <button class="opt active">720p</button>
+            <button class="opt locked" id="q1080">1080p <span class="lock-pill">Pro</span></button>
+            <button class="opt locked" id="q4k">4K <span class="lock-pill">Ultra</span></button>
+          </div>
+          <div id="loginWall" class="login-wall">
+            <div class="login-wall-icon">🔒</div>
+            <div class="login-wall-text">Sign up free to generate your first animation</div>
+            <button class="login-wall-btn" onclick="openModal('signup')">Get started free</button>
+          </div>
+          <div id="genArea" style="display:none">
+            <button class="gen-btn" id="genBtn" onclick="generate()">
+              <span id="genBtnIcon">▶</span>
+              <span id="genBtnText">Generate animation</span>
+            </button>
+            <div class="quota-wrap">
+              <div class="quota-row"><span class="quota-count" id="quotaLabel">3 / 3 remaining today</span></div>
+              <div class="quota-track"><div class="quota-fill" id="quotaFill" style="width:0%"></div></div>
+            </div>
+          </div>
         </div>
-        <div class="field-label">时长</div>
-        <div class="option-group">
-          <button class="opt active" onclick="setOpt(this)">3 秒</button>
-          <button class="opt" onclick="setOpt(this)">6 秒</button>
-          <button class="opt locked" id="dur15">15 秒 <span class="lock-pill">Pro</span></button>
-        </div>
-        <div class="field-label">画质</div>
-        <div class="option-group">
-          <button class="opt active">720p</button>
-          <button class="opt locked" id="q1080">1080p <span class="lock-pill">Pro</span></button>
-          <button class="opt locked" id="q4k">4K <span class="lock-pill">Ultra</span></button>
-        </div>
-        <div id="loginWall" class="login-wall">
-          <div class="login-wall-icon">🔒</div>
-          <div class="login-wall-text">请先登入或注册，即可免费生成动图</div>
-          <button class="login-wall-btn" onclick="openModal('signup')">免费注册 / 登入</button>
-        </div>
-        <div id="genArea" style="display:none">
-          <button class="gen-btn" id="genBtn" onclick="generate()">
-            <span id="genBtnIcon">▶</span>
-            <span id="genBtnText">生成动图</span>
-          </button>
-          <div class="quota-wrap">
-            <div class="quota-row"><span class="quota-count" id="quotaLabel">今日剩余 3 / 3 次</span></div>
-            <div class="quota-track"><div class="quota-fill" id="quotaFill" style="width:0%"></div></div>
+        <div class="app-right">
+          <div class="field-label" style="margin-bottom:10px;">Preview (sample products)</div>
+          <div class="preview-grid">
+            <div class="p-card" id="pcard1">
+              <div class="p-top"><div class="p-glow"></div><div class="p-ring"></div><div class="p-emoji">👟</div></div>
+              <div class="p-bottom"><div class="p-name">Sneakers</div><div class="p-status" id="pstatus1">Pending</div></div>
+            </div>
+            <div class="p-card" id="pcard2">
+              <div class="p-top"><div class="p-glow"></div><div class="p-ring"></div><div class="p-emoji">👜</div></div>
+              <div class="p-bottom"><div class="p-name">Handbag</div><div class="p-status done" id="pstatus2">✓ Done</div></div>
+            </div>
+          </div>
+          <div class="upgrade-box">
+            <div class="upgrade-text">Upgrade to Pro · 4K quality · No watermark · Unlimited</div>
+            <button class="upgrade-btn" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">Upgrade ↗</button>
           </div>
         </div>
       </div>
-      <div class="app-right">
-        <div class="field-label" style="margin-bottom:10px;">预览（示例产品）</div>
-        <div class="preview-grid">
-          <div class="p-card" id="pcard1">
-            <div class="p-top"><div class="p-glow"></div><div class="p-ring"></div><div class="p-emoji">👟</div></div>
-            <div class="p-bottom"><div class="p-name">运动鞋</div><div class="p-status" id="pstatus1">待处理</div></div>
-          </div>
-          <div class="p-card" id="pcard2">
-            <div class="p-top"><div class="p-glow"></div><div class="p-ring"></div><div class="p-emoji">👜</div></div>
-            <div class="p-bottom"><div class="p-name">手提包</div><div class="p-status done" id="pstatus2">✓ 已完成</div></div>
-          </div>
-        </div>
-        <div class="upgrade-box">
-          <div class="upgrade-text">升级专业版 · 4K画质 · 无水印 · 无限次数</div>
-          <button class="upgrade-btn" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">立即升级</button>
-        </div>
+    </div>
+  </div>
+
+  <div class="section" id="pricing">
+    <div class="section-label">Pricing</div>
+    <div class="section-title">Simple, transparent pricing</div>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="plan-name">Free</div>
+        <div class="plan-price"><sup>$</sup>0</div>
+        <div class="plan-period">forever</div>
+        <ul class="plan-features">
+          <li><span class="feat-check">✓</span> 3 generations/day</li>
+          <li><span class="feat-check">✓</span> 720p quality</li>
+          <li><span class="feat-check">✓</span> 3 animation styles</li>
+          <li><span class="feat-cross">✗</span> Watermark</li>
+          <li><span class="feat-cross">✗</span> Max 3 seconds</li>
+        </ul>
+        <button class="plan-btn plan-btn-outline" onclick="openModal('signup')">Get started</button>
+      </div>
+      <div class="pricing-card featured">
+        <div class="popular-badge">Most popular</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price"><sup>$</sup>4.9</div>
+        <div class="plan-period">per month</div>
+        <ul class="plan-features">
+          <li><span class="feat-check">✓</span> 50 generations/day</li>
+          <li><span class="feat-check">✓</span> 1080p quality</li>
+          <li><span class="feat-check">✓</span> All animation styles</li>
+          <li><span class="feat-check">✓</span> No watermark</li>
+          <li><span class="feat-check">✓</span> Up to 15 seconds</li>
+        </ul>
+        <button class="plan-btn plan-btn-fill" onclick="openModal('signup')">Subscribe now</button>
+      </div>
+      <div class="pricing-card">
+        <div class="plan-name">Ultra</div>
+        <div class="plan-price"><sup>$</sup>19</div>
+        <div class="plan-period">per month</div>
+        <ul class="plan-features">
+          <li><span class="feat-check">✓</span> Unlimited generations</li>
+          <li><span class="feat-check">✓</span> 4K quality</li>
+          <li><span class="feat-check">✓</span> API access</li>
+          <li><span class="feat-check">✓</span> Priority queue</li>
+          <li><span class="feat-check">✓</span> Dedicated support</li>
+        </ul>
+        <button class="plan-btn plan-btn-outline" onclick="openModal('signup')">Get Ultra</button>
       </div>
     </div>
   </div>
+
+  <footer>
+    <p>© 2026 MotionShop ·
+      <a onclick="showPage('terms')">Terms of Service</a> ·
+      <a onclick="showPage('privacy')">Privacy Policy</a> ·
+      <a onclick="showPage('refund')">Refund Policy</a>
+    </p>
+  </footer>
 </div>
 
-<!-- PRICING -->
-<div class="section" id="pricing">
-  <div class="section-label">方案</div>
-  <div class="section-title">选择适合您的计划</div>
-  <div class="pricing-grid">
-    <div class="pricing-card">
-      <div class="plan-name">免费版</div>
-      <div class="plan-price"><sup>$</sup>0</div>
-      <div class="plan-period">永久免费</div>
-      <ul class="plan-features">
-        <li><span class="feat-check">✓</span> 每天 3 次生成</li>
-        <li><span class="feat-check">✓</span> 720p 画质</li>
-        <li><span class="feat-check">✓</span> 3 种动画风格</li>
-        <li><span class="feat-cross">✗</span> 含水印</li>
-        <li><span class="feat-cross">✗</span> 最长 3 秒</li>
-      </ul>
-      <button class="plan-btn plan-btn-outline" onclick="openModal('signup')">免费开始</button>
-    </div>
-    <div class="pricing-card featured">
-      <div class="popular-badge">最受欢迎</div>
-      <div class="plan-name">专业版</div>
-      <div class="plan-price"><sup>$</sup>19</div>
-      <div class="plan-period">每月</div>
-      <ul class="plan-features">
-        <li><span class="feat-check">✓</span> 每天 50 次生成</li>
-        <li><span class="feat-check">✓</span> 1080p 画质</li>
-        <li><span class="feat-check">✓</span> 全部动画风格</li>
-        <li><span class="feat-check">✓</span> 无水印</li>
-        <li><span class="feat-check">✓</span> 最长 15 秒</li>
-      </ul>
-      <button class="plan-btn plan-btn-fill" onclick="openModal('signup')">立即订阅</button>
-    </div>
-    <div class="pricing-card">
-      <div class="plan-name">旗舰版</div>
-      <div class="plan-price"><sup>$</sup>49</div>
-      <div class="plan-period">每月</div>
-      <ul class="plan-features">
-        <li><span class="feat-check">✓</span> 无限次生成</li>
-        <li><span class="feat-check">✓</span> 4K 画质</li>
-        <li><span class="feat-check">✓</span> API 接口</li>
-        <li><span class="feat-check">✓</span> 优先队列</li>
-        <li><span class="feat-check">✓</span> 专属客服</li>
-      </ul>
-      <button class="plan-btn plan-btn-outline" onclick="openModal('signup')">联系我们</button>
-    </div>
+<!-- TERMS OF SERVICE -->
+<div class="page" id="page-terms">
+  <div class="legal-page">
+    <button class="back-link" onclick="showPage('home')">← Back to MotionShop</button>
+    <h1>Terms of Service</h1>
+    <p class="updated">Last updated: January 1, 2026</p>
+    <p>Welcome to MotionShop. By accessing or using our service, you agree to be bound by these Terms of Service.</p>
+    <h2>1. Use of Service</h2>
+    <p>MotionShop provides an AI-powered image animation service for e-commerce sellers. You may use the service only for lawful purposes and in accordance with these Terms.</p>
+    <h2>2. Account Registration</h2>
+    <p>You must create an account to use certain features. You are responsible for maintaining the confidentiality of your account credentials and for all activities under your account.</p>
+    <h2>3. Subscription and Payments</h2>
+    <p>Paid subscriptions are billed monthly. Payments are processed securely through Paddle. Prices are listed in USD and may vary by region due to local taxes.</p>
+    <h2>4. Intellectual Property</h2>
+    <p>You retain ownership of images you upload. By uploading content, you grant MotionShop a limited license to process your images to provide the service. Generated animations are owned by you.</p>
+    <h2>5. Prohibited Uses</h2>
+    <ul>
+      <li>Using the service to generate illegal, harmful, or offensive content</li>
+      <li>Attempting to reverse-engineer or copy our AI models</li>
+      <li>Reselling or redistributing the service without authorization</li>
+      <li>Uploading content that infringes third-party intellectual property rights</li>
+    </ul>
+    <h2>6. Disclaimers</h2>
+    <p>The service is provided "as is" without warranties of any kind. We do not guarantee that the service will be uninterrupted or error-free.</p>
+    <h2>7. Limitation of Liability</h2>
+    <p>To the fullest extent permitted by law, MotionShop shall not be liable for any indirect, incidental, or consequential damages arising from your use of the service.</p>
+    <h2>8. Changes to Terms</h2>
+    <p>We reserve the right to modify these Terms at any time. Continued use of the service after changes constitutes acceptance of the new Terms.</p>
+    <h2>9. Contact</h2>
+    <p>For questions about these Terms, please contact us at support@motionshop.ai</p>
   </div>
+  <footer>
+    <p>© 2026 MotionShop · <a onclick="showPage('terms')">Terms of Service</a> · <a onclick="showPage('privacy')">Privacy Policy</a> · <a onclick="showPage('refund')">Refund Policy</a></p>
+  </footer>
 </div>
 
-<footer><p>© 2026 MotionShop · <a href="#">隐私政策</a> · <a href="#">服务条款</a></p></footer>
+<!-- PRIVACY POLICY -->
+<div class="page" id="page-privacy">
+  <div class="legal-page">
+    <button class="back-link" onclick="showPage('home')">← Back to MotionShop</button>
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: January 1, 2026</p>
+    <p>MotionShop is committed to protecting your privacy. This policy explains how we collect, use, and protect your information.</p>
+    <h2>1. Information We Collect</h2>
+    <ul>
+      <li>Account information: email address, name</li>
+      <li>Usage data: features used, generations created</li>
+      <li>Images you upload for animation processing</li>
+      <li>Payment information (processed by Paddle, not stored by us)</li>
+    </ul>
+    <h2>2. How We Use Your Information</h2>
+    <ul>
+      <li>To provide and improve our service</li>
+      <li>To process payments and manage subscriptions</li>
+      <li>To send service-related communications</li>
+      <li>To prevent fraud and ensure security</li>
+    </ul>
+    <h2>3. Data Storage</h2>
+    <p>Your account data is stored securely using Supabase infrastructure. Uploaded images are processed and deleted within 24 hours unless you choose to save them.</p>
+    <h2>4. Data Sharing</h2>
+    <p>We do not sell your personal data. We share data only with service providers necessary to operate our service (Supabase for authentication, Paddle for payments).</p>
+    <h2>5. Cookies</h2>
+    <p>We use essential cookies for authentication and session management. We do not use advertising or tracking cookies.</p>
+    <h2>6. Your Rights</h2>
+    <p>You have the right to access, correct, or delete your personal data. To exercise these rights, contact us at support@motionshop.ai</p>
+    <h2>7. Contact</h2>
+    <p>For privacy-related questions, contact us at support@motionshop.ai</p>
+  </div>
+  <footer>
+    <p>© 2026 MotionShop · <a onclick="showPage('terms')">Terms of Service</a> · <a onclick="showPage('privacy')">Privacy Policy</a> · <a onclick="showPage('refund')">Refund Policy</a></p>
+  </footer>
+</div>
+
+<!-- REFUND POLICY -->
+<div class="page" id="page-refund">
+  <div class="legal-page">
+    <button class="back-link" onclick="showPage('home')">← Back to MotionShop</button>
+    <h1>Refund Policy</h1>
+    <p class="updated">Last updated: January 1, 2026</p>
+    <p>We want you to be completely satisfied with MotionShop. Here is our refund policy.</p>
+    <h2>1. 7-Day Money-Back Guarantee</h2>
+    <p>If you are not satisfied with your subscription for any reason, you may request a full refund within 7 days of your initial purchase. No questions asked.</p>
+    <h2>2. How to Request a Refund</h2>
+    <p>To request a refund, email us at support@motionshop.ai with your account email and order details. We will process your refund within 5 business days.</p>
+    <h2>3. Subscription Cancellations</h2>
+    <p>You may cancel your subscription at any time. Cancellation takes effect at the end of the current billing period. No partial refunds are issued for unused days after the 7-day window.</p>
+    <h2>4. Exceptions</h2>
+    <ul>
+      <li>Refunds are not available after 7 days of the initial purchase</li>
+      <li>Accounts found to be in violation of our Terms of Service are not eligible for refunds</li>
+    </ul>
+    <h2>5. Contact</h2>
+    <p>For refund requests, contact us at support@motionshop.ai</p>
+  </div>
+  <footer>
+    <p>© 2026 MotionShop · <a onclick="showPage('terms')">Terms of Service</a> · <a onclick="showPage('privacy')">Privacy Policy</a> · <a onclick="showPage('refund')">Refund Policy</a></p>
+  </footer>
+</div>
 
 <script>
 const SUPABASE_URL = 'https://rkwdteppsxhzalqhghlf.supabase.co';
@@ -344,7 +465,23 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 var currentUser = null, currentTab = 'login', plan = 'free', quotaUsed = 0, quotaMax = 3, generating = false;
 
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+  document.getElementById('page-' + name).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// Handle URL hash for legal pages
+function checkHash() {
+  var hash = window.location.hash;
+  if (hash === '#terms') showPage('terms');
+  else if (hash === '#privacy') showPage('privacy');
+  else if (hash === '#refund') showPage('refund');
+  else showPage('home');
+}
+
 async function init() {
+  checkHash();
   const { data: { session } } = await sb.auth.getSession();
   if (session) setUser(session.user); else setGuest();
   sb.auth.onAuthStateChange((_e, s) => { if (s) { setUser(s.user); closeModal(); } else setGuest(); });
@@ -352,7 +489,7 @@ async function init() {
 
 function setUser(u) {
   currentUser = u;
-  document.getElementById('navUserEmail').textContent = u.email || 'Google用户';
+  document.getElementById('navUserEmail').textContent = u.email || 'Google user';
   document.getElementById('navLoginBtn').style.display = 'none';
   document.getElementById('navSignupBtn').style.display = 'none';
   document.getElementById('navLogoutBtn').style.display = 'block';
@@ -376,7 +513,7 @@ function switchTab(tab) {
   currentTab = tab;
   document.getElementById('tabLogin').classList.toggle('active', tab === 'login');
   document.getElementById('tabSignup').classList.toggle('active', tab === 'signup');
-  document.getElementById('emailAuthBtn').textContent = tab === 'login' ? '登入' : '注册';
+  document.getElementById('emailAuthBtn').textContent = tab === 'login' ? 'Log in' : 'Sign up';
   document.getElementById('authMsg').innerHTML = '';
 }
 
@@ -385,19 +522,19 @@ async function handleEmailAuth() {
   var password = document.getElementById('authPassword').value;
   var btn = document.getElementById('emailAuthBtn');
   var msgEl = document.getElementById('authMsg');
-  if (!email || !password) { msgEl.innerHTML = '<div class="msg msg-error">请填写电子邮件和密码</div>'; return; }
+  if (!email || !password) { msgEl.innerHTML = '<div class="msg msg-error">Please enter your email and password</div>'; return; }
   btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
   var result = currentTab === 'login'
     ? await sb.auth.signInWithPassword({ email, password })
     : await sb.auth.signUp({ email, password });
-  btn.disabled = false; btn.textContent = currentTab === 'login' ? '登入' : '注册';
+  btn.disabled = false; btn.textContent = currentTab === 'login' ? 'Log in' : 'Sign up';
   if (result.error) {
     var e = result.error.message;
-    if (e.includes('Invalid login')) e = '邮件或密码错误';
-    if (e.includes('already registered')) e = '此邮件已注册，请直接登入';
+    if (e.includes('Invalid login')) e = 'Invalid email or password';
+    if (e.includes('already registered')) e = 'Email already registered. Please log in.';
     msgEl.innerHTML = '<div class="msg msg-error">' + e + '</div>';
   } else if (currentTab === 'signup' && !result.data.session) {
-    msgEl.innerHTML = '<div class="msg msg-success">✓ 注册成功！请检查邮件并点击确认连结</div>';
+    msgEl.innerHTML = '<div class="msg msg-success">✓ Check your email to confirm your account</div>';
   }
 }
 
@@ -412,7 +549,6 @@ function setPlan(p, el) {
   document.querySelectorAll('.plan-tab').forEach(function(b) { b.classList.remove('active'); });
   el.classList.add('active');
   quotaMax = p === 'free' ? 3 : p === 'pro' ? 50 : 9999;
-  var locked = p === 'free';
   document.getElementById('q1080').classList.toggle('locked', p === 'free');
   document.getElementById('q4k').classList.toggle('locked', p !== 'ultra');
   document.getElementById('dur15').classList.toggle('locked', p === 'free');
@@ -426,17 +562,17 @@ function setOpt(el) {
 }
 
 function handleUpload() {
-  document.getElementById('uploadMain').textContent = '✓ 图片已上传';
-  document.getElementById('pstatus1').textContent = '准备就绪';
+  document.getElementById('uploadMain').textContent = '✓ Image uploaded';
+  document.getElementById('pstatus1').textContent = 'Ready';
 }
 
 function updateQuota() {
   var pct = Math.min((quotaUsed / quotaMax) * 100, 100);
   document.getElementById('quotaFill').style.width = pct + '%';
   document.getElementById('quotaLabel').textContent = plan === 'ultra'
-    ? '旗舰版 · 无限次数'
-    : plan === 'pro' ? '专业版 · 已用 ' + quotaUsed + ' 次'
-    : '今日剩余 ' + Math.max(0, quotaMax - quotaUsed) + ' / ' + quotaMax + ' 次';
+    ? 'Ultra · Unlimited'
+    : plan === 'pro' ? 'Pro · ' + quotaUsed + ' used today'
+    : Math.max(0, quotaMax - quotaUsed) + ' / ' + quotaMax + ' remaining today';
 }
 
 function generate() {
@@ -446,16 +582,16 @@ function generate() {
   generating = true;
   var btn = document.getElementById('genBtn'); btn.disabled = true;
   document.getElementById('genBtnIcon').innerHTML = '<span class="spinner"></span>';
-  document.getElementById('genBtnText').textContent = '生成中...';
+  document.getElementById('genBtnText').textContent = 'Generating...';
   var top = document.getElementById('pcard1').querySelector('.p-top');
   var status = document.getElementById('pstatus1');
-  top.classList.add('animating'); status.textContent = '处理中...'; status.className = 'p-status';
+  top.classList.add('animating'); status.textContent = 'Processing...'; status.className = 'p-status';
   setTimeout(function() {
     top.classList.remove('animating');
-    status.textContent = '✓ 动图已生成'; status.className = 'p-status done';
+    status.textContent = '✓ Animation ready'; status.className = 'p-status done';
     generating = false; btn.disabled = false;
     document.getElementById('genBtnIcon').textContent = '▶';
-    document.getElementById('genBtnText').textContent = '再次生成';
+    document.getElementById('genBtnText').textContent = 'Generate again';
     quotaUsed++; updateQuota();
   }, 3000);
 }
