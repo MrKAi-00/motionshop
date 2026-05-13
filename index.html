@@ -21,7 +21,6 @@
 html { scroll-behavior: smooth; }
 body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; }
 
-/* PAGE SYSTEM */
 .page { display: none; }
 .page.active { display: block; }
 
@@ -42,11 +41,10 @@ nav {
 .nav-btn-fill { background: var(--accent); color: #fff; }
 .nav-btn-fill:hover { opacity: 0.85; }
 
-/* MODAL */
 .modal-overlay { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); align-items: center; justify-content: center; }
 .modal-overlay.open { display: flex; }
 .modal { background: var(--bg2); border: 0.5px solid var(--border2); border-radius: var(--radius-lg); padding: 2rem; width: 100%; max-width: 400px; margin: 1rem; position: relative; }
-.modal-close { position: absolute; top: 14px; right: 16px; background: none; border: none; color: var(--text3); font-size: 22px; cursor: pointer; line-height: 1; }
+.modal-close { position: absolute; top: 14px; right: 16px; background: none; border: none; color: var(--text3); font-size: 22px; cursor: pointer; }
 .modal-close:hover { color: var(--text); }
 .modal-title { font-size: 20px; font-weight: 600; margin-bottom: 0.25rem; }
 .modal-sub { font-size: 14px; color: var(--text2); margin-bottom: 1.5rem; }
@@ -70,7 +68,6 @@ nav {
 .msg-error { background: rgba(248,113,113,0.1); color: var(--red); }
 .msg-success { background: var(--green-bg); color: var(--green); }
 
-/* HERO */
 .hero { padding: 140px 2rem 80px; text-align: center; max-width: 760px; margin: 0 auto; }
 .hero-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-family: 'DM Mono', monospace; color: var(--accent2); background: var(--accent-bg); border: 0.5px solid rgba(108,99,255,0.3); padding: 4px 12px; border-radius: 99px; margin-bottom: 1.5rem; }
 .hero h1 { font-size: clamp(36px, 6vw, 64px); font-weight: 600; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 1.25rem; }
@@ -82,60 +79,75 @@ nav {
 .btn-ghost { font-size: 15px; font-weight: 500; background: transparent; color: var(--text2); padding: 12px 28px; border-radius: var(--radius); border: 0.5px solid var(--border2); cursor: pointer; transition: all 0.15s; }
 .btn-ghost:hover { color: var(--text); background: var(--bg2); }
 
-/* SECTION */
 .section { max-width: 900px; margin: 0 auto; padding: 0 2rem 5rem; }
 .section-label { font-size: 12px; font-family: 'DM Mono', monospace; color: var(--text3); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 0.5rem; }
 .section-title { font-size: 28px; font-weight: 600; letter-spacing: -0.5px; margin-bottom: 2rem; }
 
 /* APP */
 .app-container { background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
-.app-header { padding: 1.25rem 1.5rem; border-bottom: 0.5px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.app-header { padding: 1.25rem 1.5rem; border-bottom: 0.5px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
 .app-title { font-size: 15px; font-weight: 500; }
 .plan-tabs { display: flex; gap: 4px; }
 .plan-tab { font-size: 12px; padding: 4px 12px; border-radius: 99px; border: 0.5px solid var(--border); background: transparent; color: var(--text2); cursor: pointer; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
 .plan-tab.active { background: var(--accent-bg); border-color: rgba(108,99,255,0.4); color: var(--accent2); }
 .app-body { display: grid; grid-template-columns: 1fr 1fr; }
-@media (max-width: 600px) { .app-body { grid-template-columns: 1fr; } }
+@media (max-width: 640px) { .app-body { grid-template-columns: 1fr; } }
 .app-left { padding: 1.5rem; border-right: 0.5px solid var(--border); }
 .app-right { padding: 1.5rem; }
-.upload-zone { border: 1px dashed var(--border2); border-radius: var(--radius); padding: 2rem 1rem; text-align: center; cursor: pointer; transition: all 0.2s; background: var(--bg3); margin-bottom: 1rem; }
+
+/* UPLOAD */
+.upload-zone { border: 1px dashed var(--border2); border-radius: var(--radius); padding: 1.5rem 1rem; text-align: center; cursor: pointer; transition: all 0.2s; background: var(--bg3); margin-bottom: 1rem; position: relative; overflow: hidden; }
 .upload-zone:hover { border-color: var(--accent); background: var(--accent-bg); }
-.upload-icon { font-size: 32px; margin-bottom: 8px; }
-.upload-main { font-size: 14px; color: var(--text2); }
-.upload-sub { font-size: 12px; color: var(--text3); margin-top: 4px; }
+.upload-zone.has-image { border-color: var(--green); background: var(--green-bg); }
+.upload-icon { font-size: 28px; margin-bottom: 6px; }
+.upload-main { font-size: 13px; color: var(--text2); }
+.upload-sub { font-size: 11px; color: var(--text3); margin-top: 3px; }
+.upload-preview { width: 100%; max-height: 120px; object-fit: contain; border-radius: var(--radius); margin-bottom: 6px; }
+#fileInput { display: none; }
+
 .field-label { font-size: 12px; color: var(--text3); margin-bottom: 6px; }
 .option-group { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1rem; }
 .opt { font-size: 12px; padding: 5px 11px; border-radius: var(--radius); border: 0.5px solid var(--border); background: var(--bg3); color: var(--text2); cursor: pointer; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
 .opt.active { background: var(--accent-bg); border-color: rgba(108,99,255,0.4); color: var(--accent2); }
 .opt.locked { opacity: 0.38; cursor: not-allowed; }
 .lock-pill { font-size: 10px; padding: 2px 6px; background: rgba(245,158,11,0.1); color: var(--amber); border-radius: 99px; font-family: 'DM Mono', monospace; }
+
 .login-wall { background: var(--bg3); border: 1px dashed var(--border2); border-radius: var(--radius); padding: 1.5rem; text-align: center; margin-top: 0.5rem; }
 .login-wall-icon { font-size: 28px; margin-bottom: 8px; }
 .login-wall-text { font-size: 13px; color: var(--text2); margin-bottom: 1rem; }
 .login-wall-btn { font-size: 13px; font-weight: 500; background: var(--accent); color: #fff; padding: 9px 22px; border-radius: var(--radius); border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+
 .gen-btn { width: 100%; padding: 11px; background: var(--accent); color: #fff; border: none; border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 0.5rem; transition: opacity 0.15s; }
 .gen-btn:hover { opacity: 0.85; }
 .gen-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
 .quota-wrap { margin-top: 1rem; }
 .quota-row { display: flex; justify-content: space-between; margin-bottom: 4px; }
 .quota-count { font-size: 12px; color: var(--text3); }
 .quota-track { height: 3px; background: var(--bg3); border-radius: 2px; overflow: hidden; }
 .quota-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.5s ease; }
-.preview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1rem; }
-.p-card { background: var(--bg3); border: 0.5px solid var(--border); border-radius: var(--radius); overflow: hidden; }
-.p-top { height: 100px; display: flex; align-items: center; justify-content: center; position: relative; }
-.p-emoji { font-size: 38px; position: relative; z-index: 1; }
-.p-ring { position: absolute; inset: 8px; border-radius: 50%; border: 2px solid transparent; }
-.animating .p-ring { border-color: var(--accent); animation: spin 1.4s linear infinite; }
-.p-glow { position: absolute; inset: 0; opacity: 0; transition: opacity 0.3s; }
-.animating .p-glow { opacity: 1; background: radial-gradient(circle at center, rgba(108,99,255,0.2) 0%, transparent 70%); animation: pglow 1.2s ease-in-out infinite alternate; }
-@keyframes spin { to { transform: rotate(360deg); } }
-@keyframes pglow { from { opacity: 0.4; } to { opacity: 1; } }
-.p-bottom { padding: 8px 10px; }
-.p-name { font-size: 12px; font-weight: 500; }
-.p-status { font-size: 11px; color: var(--text3); margin-top: 1px; }
-.p-status.done { color: var(--green); }
-.upgrade-box { background: var(--accent-bg); border: 0.5px solid rgba(108,99,255,0.25); border-radius: var(--radius); padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+
+/* RESULT */
+.result-area { margin-top: 1rem; }
+.result-card { background: var(--bg3); border: 0.5px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.result-video { width: 100%; display: block; border-radius: var(--radius); }
+.result-placeholder { height: 160px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text3); font-size: 13px; gap: 8px; }
+.result-placeholder .icon { font-size: 32px; }
+.result-actions { padding: 10px; display: flex; gap: 8px; }
+.result-btn { flex: 1; padding: 8px; border-radius: var(--radius); font-size: 12px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s; border: 0.5px solid var(--border2); background: transparent; color: var(--text2); }
+.result-btn:hover { background: var(--bg2); color: var(--text); }
+.result-btn.primary { background: var(--accent); color: #fff; border-color: transparent; }
+.result-btn.primary:hover { opacity: 0.85; }
+
+/* STATUS */
+.status-bar { display: flex; align-items: center; gap: 8px; padding: 10px 12px; background: var(--bg3); border-radius: var(--radius); margin-top: 10px; font-size: 13px; color: var(--text2); }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text3); flex-shrink: 0; }
+.status-dot.processing { background: var(--amber); animation: pulse 1s infinite; }
+.status-dot.done { background: var(--green); }
+.status-dot.error { background: var(--red); }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+.upgrade-box { background: var(--accent-bg); border: 0.5px solid rgba(108,99,255,0.25); border-radius: var(--radius); padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 1rem; }
 .upgrade-text { font-size: 12px; color: var(--accent2); line-height: 1.5; }
 .upgrade-btn { font-size: 12px; font-weight: 500; background: var(--accent); color: #fff; padding: 6px 14px; border-radius: var(--radius); border: none; cursor: pointer; white-space: nowrap; font-family: 'DM Sans', sans-serif; }
 
@@ -158,16 +170,15 @@ nav {
 .plan-btn-fill { background: var(--accent); color: #fff; border: none; }
 .plan-btn-fill:hover { opacity: 0.85; }
 
-/* LEGAL PAGES */
+/* LEGAL */
 .legal-page { padding: 100px 2rem 4rem; max-width: 720px; margin: 0 auto; }
 .legal-page h1 { font-size: 28px; font-weight: 600; margin-bottom: 0.5rem; }
 .legal-page .updated { font-size: 13px; color: var(--text3); margin-bottom: 2rem; }
-.legal-page h2 { font-size: 16px; font-weight: 600; margin: 1.5rem 0 0.5rem; color: var(--text); }
+.legal-page h2 { font-size: 16px; font-weight: 600; margin: 1.5rem 0 0.5rem; }
 .legal-page p { font-size: 14px; color: var(--text2); line-height: 1.8; margin-bottom: 0.75rem; }
 .legal-page ul { padding-left: 1.25rem; margin-bottom: 0.75rem; }
 .legal-page ul li { font-size: 14px; color: var(--text2); line-height: 1.8; }
 .back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--accent2); cursor: pointer; margin-bottom: 1.5rem; background: none; border: none; font-family: 'DM Sans', sans-serif; }
-.back-link:hover { opacity: 0.8; }
 
 footer { border-top: 0.5px solid var(--border); padding: 2rem; text-align: center; color: var(--text3); font-size: 13px; }
 footer a { color: var(--text2); text-decoration: none; cursor: pointer; }
@@ -243,34 +254,43 @@ footer a:hover { color: var(--text); }
       </div>
       <div class="app-body">
         <div class="app-left">
-          <div class="upload-zone" onclick="handleUpload()">
-            <div class="upload-icon">📦</div>
-            <div class="upload-main" id="uploadMain">Click to upload product image</div>
-            <div class="upload-sub">JPG · PNG · WEBP, max 10MB</div>
+          <!-- Upload Zone -->
+          <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+            <img id="uploadPreview" class="upload-preview" style="display:none" />
+            <div id="uploadPlaceholder">
+              <div class="upload-icon">📦</div>
+              <div class="upload-main">Click to upload product image</div>
+              <div class="upload-sub">JPG · PNG · WEBP, max 10MB</div>
+            </div>
           </div>
+          <input type="file" id="fileInput" accept="image/*" onchange="handleFileSelect(event)" />
+
           <div class="field-label">Animation style</div>
           <div class="option-group">
-            <button class="opt active" onclick="setOpt(this)">360° Spin</button>
-            <button class="opt" onclick="setOpt(this)">Float</button>
-            <button class="opt" onclick="setOpt(this)">Light sweep</button>
+            <button class="opt active" data-style="spin" onclick="setOpt(this)">360° Spin</button>
+            <button class="opt" data-style="float" onclick="setOpt(this)">Float</button>
+            <button class="opt" data-style="light" onclick="setOpt(this)">Light sweep</button>
           </div>
+
           <div class="field-label">Duration</div>
           <div class="option-group">
-            <button class="opt active" onclick="setOpt(this)">3s</button>
-            <button class="opt" onclick="setOpt(this)">6s</button>
-            <button class="opt locked" id="dur15">15s <span class="lock-pill">Pro</span></button>
+            <button class="opt active" data-dur="5" onclick="setDur(this)">5s</button>
+            <button class="opt locked" id="dur10" data-dur="10">10s <span class="lock-pill">Pro</span></button>
           </div>
+
           <div class="field-label">Quality</div>
           <div class="option-group">
             <button class="opt active">720p</button>
             <button class="opt locked" id="q1080">1080p <span class="lock-pill">Pro</span></button>
             <button class="opt locked" id="q4k">4K <span class="lock-pill">Ultra</span></button>
           </div>
+
           <div id="loginWall" class="login-wall">
             <div class="login-wall-icon">🔒</div>
             <div class="login-wall-text">Sign up free to generate your first animation</div>
             <button class="login-wall-btn" onclick="openModal('signup')">Get started free</button>
           </div>
+
           <div id="genArea" style="display:none">
             <button class="gen-btn" id="genBtn" onclick="generate()">
               <span id="genBtnIcon">▶</span>
@@ -280,22 +300,30 @@ footer a:hover { color: var(--text); }
               <div class="quota-row"><span class="quota-count" id="quotaLabel">3 / 3 remaining today</span></div>
               <div class="quota-track"><div class="quota-fill" id="quotaFill" style="width:0%"></div></div>
             </div>
+            <div id="statusBar" style="display:none" class="status-bar">
+              <div class="status-dot" id="statusDot"></div>
+              <span id="statusText">Processing...</span>
+            </div>
           </div>
         </div>
+
         <div class="app-right">
-          <div class="field-label" style="margin-bottom:10px;">Preview (sample products)</div>
-          <div class="preview-grid">
-            <div class="p-card" id="pcard1">
-              <div class="p-top"><div class="p-glow"></div><div class="p-ring"></div><div class="p-emoji">👟</div></div>
-              <div class="p-bottom"><div class="p-name">Sneakers</div><div class="p-status" id="pstatus1">Pending</div></div>
+          <div class="field-label" style="margin-bottom:10px;">Result</div>
+          <div class="result-area">
+            <div class="result-card">
+              <div id="resultPlaceholder" class="result-placeholder">
+                <div class="icon">🎬</div>
+                <div>Your animation will appear here</div>
+              </div>
+              <video id="resultVideo" class="result-video" style="display:none" controls loop autoplay muted></video>
             </div>
-            <div class="p-card" id="pcard2">
-              <div class="p-top"><div class="p-glow"></div><div class="p-ring"></div><div class="p-emoji">👜</div></div>
-              <div class="p-bottom"><div class="p-name">Handbag</div><div class="p-status done" id="pstatus2">✓ Done</div></div>
+            <div id="resultActions" style="display:none" class="result-actions">
+              <button class="result-btn primary" onclick="downloadVideo()">⬇ Download</button>
+              <button class="result-btn" onclick="resetResult()">Generate new</button>
             </div>
           </div>
-          <div class="upgrade-box">
-            <div class="upgrade-text">Upgrade to Pro · 4K quality · No watermark · Unlimited</div>
+          <div class="upgrade-box" id="upgradeBox">
+            <div class="upgrade-text">Upgrade to Pro · 1080p · No watermark · Unlimited</div>
             <button class="upgrade-btn" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">Upgrade ↗</button>
           </div>
         </div>
@@ -316,7 +344,7 @@ footer a:hover { color: var(--text); }
           <li><span class="feat-check">✓</span> 720p quality</li>
           <li><span class="feat-check">✓</span> 3 animation styles</li>
           <li><span class="feat-cross">✗</span> Watermark</li>
-          <li><span class="feat-cross">✗</span> Max 3 seconds</li>
+          <li><span class="feat-cross">✗</span> Max 5 seconds</li>
         </ul>
         <button class="plan-btn plan-btn-outline" onclick="openModal('signup')">Get started</button>
       </div>
@@ -330,7 +358,7 @@ footer a:hover { color: var(--text); }
           <li><span class="feat-check">✓</span> 1080p quality</li>
           <li><span class="feat-check">✓</span> All animation styles</li>
           <li><span class="feat-check">✓</span> No watermark</li>
-          <li><span class="feat-check">✓</span> Up to 15 seconds</li>
+          <li><span class="feat-check">✓</span> Up to 10 seconds</li>
         </ul>
         <button class="plan-btn plan-btn-fill" onclick="openModal('signup')">Subscribe now</button>
       </div>
@@ -359,7 +387,7 @@ footer a:hover { color: var(--text); }
   </footer>
 </div>
 
-<!-- TERMS OF SERVICE -->
+<!-- TERMS -->
 <div class="page" id="page-terms">
   <div class="legal-page">
     <button class="back-link" onclick="showPage('home')">← Back to MotionShop</button>
@@ -373,7 +401,7 @@ footer a:hover { color: var(--text); }
     <h2>3. Subscription and Payments</h2>
     <p>Paid subscriptions are billed monthly. Payments are processed securely through Paddle. Prices are listed in USD and may vary by region due to local taxes.</p>
     <h2>4. Intellectual Property</h2>
-    <p>You retain ownership of images you upload. By uploading content, you grant MotionShop a limited license to process your images to provide the service. Generated animations are owned by you.</p>
+    <p>You retain ownership of images you upload. Generated animations are owned by you. By uploading content, you grant MotionShop a limited license to process your images to provide the service.</p>
     <h2>5. Prohibited Uses</h2>
     <ul>
       <li>Using the service to generate illegal, harmful, or offensive content</li>
@@ -385,17 +413,13 @@ footer a:hover { color: var(--text); }
     <p>The service is provided "as is" without warranties of any kind. We do not guarantee that the service will be uninterrupted or error-free.</p>
     <h2>7. Limitation of Liability</h2>
     <p>To the fullest extent permitted by law, MotionShop shall not be liable for any indirect, incidental, or consequential damages arising from your use of the service.</p>
-    <h2>8. Changes to Terms</h2>
-    <p>We reserve the right to modify these Terms at any time. Continued use of the service after changes constitutes acceptance of the new Terms.</p>
-    <h2>9. Contact</h2>
+    <h2>8. Contact</h2>
     <p>For questions about these Terms, please contact us at support@motionshop.ai</p>
   </div>
-  <footer>
-    <p>© 2026 MotionShop · <a onclick="showPage('terms')">Terms of Service</a> · <a onclick="showPage('privacy')">Privacy Policy</a> · <a onclick="showPage('refund')">Refund Policy</a></p>
-  </footer>
+  <footer><p>© 2026 MotionShop · <a onclick="showPage('terms')">Terms of Service</a> · <a onclick="showPage('privacy')">Privacy Policy</a> · <a onclick="showPage('refund')">Refund Policy</a></p></footer>
 </div>
 
-<!-- PRIVACY POLICY -->
+<!-- PRIVACY -->
 <div class="page" id="page-privacy">
   <div class="legal-page">
     <button class="back-link" onclick="showPage('home')">← Back to MotionShop</button>
@@ -419,43 +443,35 @@ footer a:hover { color: var(--text); }
     <h2>3. Data Storage</h2>
     <p>Your account data is stored securely using Supabase infrastructure. Uploaded images are processed and deleted within 24 hours unless you choose to save them.</p>
     <h2>4. Data Sharing</h2>
-    <p>We do not sell your personal data. We share data only with service providers necessary to operate our service (Supabase for authentication, Paddle for payments).</p>
-    <h2>5. Cookies</h2>
-    <p>We use essential cookies for authentication and session management. We do not use advertising or tracking cookies.</p>
-    <h2>6. Your Rights</h2>
-    <p>You have the right to access, correct, or delete your personal data. To exercise these rights, contact us at support@motionshop.ai</p>
-    <h2>7. Contact</h2>
-    <p>For privacy-related questions, contact us at support@motionshop.ai</p>
+    <p>We do not sell your personal data. We share data only with service providers necessary to operate our service.</p>
+    <h2>5. Your Rights</h2>
+    <p>You have the right to access, correct, or delete your personal data. Contact us at support@motionshop.ai</p>
   </div>
-  <footer>
-    <p>© 2026 MotionShop · <a onclick="showPage('terms')">Terms of Service</a> · <a onclick="showPage('privacy')">Privacy Policy</a> · <a onclick="showPage('refund')">Refund Policy</a></p>
-  </footer>
+  <footer><p>© 2026 MotionShop · <a onclick="showPage('terms')">Terms of Service</a> · <a onclick="showPage('privacy')">Privacy Policy</a> · <a onclick="showPage('refund')">Refund Policy</a></p></footer>
 </div>
 
-<!-- REFUND POLICY -->
+<!-- REFUND -->
 <div class="page" id="page-refund">
   <div class="legal-page">
     <button class="back-link" onclick="showPage('home')">← Back to MotionShop</button>
     <h1>Refund Policy</h1>
     <p class="updated">Last updated: January 1, 2026</p>
-    <p>We want you to be completely satisfied with MotionShop. Here is our refund policy.</p>
+    <p>We want you to be completely satisfied with MotionShop.</p>
     <h2>1. 7-Day Money-Back Guarantee</h2>
     <p>If you are not satisfied with your subscription for any reason, you may request a full refund within 7 days of your initial purchase. No questions asked.</p>
     <h2>2. How to Request a Refund</h2>
-    <p>To request a refund, email us at support@motionshop.ai with your account email and order details. We will process your refund within 5 business days.</p>
+    <p>Email us at support@motionshop.ai with your account email and order details. We will process your refund within 5 business days.</p>
     <h2>3. Subscription Cancellations</h2>
-    <p>You may cancel your subscription at any time. Cancellation takes effect at the end of the current billing period. No partial refunds are issued for unused days after the 7-day window.</p>
+    <p>You may cancel your subscription at any time. Cancellation takes effect at the end of the current billing period.</p>
     <h2>4. Exceptions</h2>
     <ul>
       <li>Refunds are not available after 7 days of the initial purchase</li>
-      <li>Accounts found to be in violation of our Terms of Service are not eligible for refunds</li>
+      <li>Accounts in violation of our Terms of Service are not eligible for refunds</li>
     </ul>
     <h2>5. Contact</h2>
     <p>For refund requests, contact us at support@motionshop.ai</p>
   </div>
-  <footer>
-    <p>© 2026 MotionShop · <a onclick="showPage('terms')">Terms of Service</a> · <a onclick="showPage('privacy')">Privacy Policy</a> · <a onclick="showPage('refund')">Refund Policy</a></p>
-  </footer>
+  <footer><p>© 2026 MotionShop · <a onclick="showPage('terms')">Terms of Service</a> · <a onclick="showPage('privacy')">Privacy Policy</a> · <a onclick="showPage('refund')">Refund Policy</a></p></footer>
 </div>
 
 <script>
@@ -463,7 +479,12 @@ const SUPABASE_URL = 'https://rkwdteppsxhzalqhghlf.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_eMKtsjOqYob_Pc2D9B8miA_mnNZdXDx';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-var currentUser = null, currentTab = 'login', plan = 'free', quotaUsed = 0, quotaMax = 3, generating = false;
+var currentUser = null, currentTab = 'login';
+var plan = 'free', quotaUsed = 0, quotaMax = 3;
+var selectedStyle = 'spin', selectedDuration = 5;
+var uploadedImageBase64 = null;
+var currentTaskId = null, pollInterval = null;
+var currentVideoUrl = null;
 
 function showPage(name) {
   document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
@@ -471,17 +492,7 @@ function showPage(name) {
   window.scrollTo(0, 0);
 }
 
-// Handle URL hash for legal pages
-function checkHash() {
-  var hash = window.location.hash;
-  if (hash === '#terms') showPage('terms');
-  else if (hash === '#privacy') showPage('privacy');
-  else if (hash === '#refund') showPage('refund');
-  else showPage('home');
-}
-
 async function init() {
-  checkHash();
   const { data: { session } } = await sb.auth.getSession();
   if (session) setUser(session.user); else setGuest();
   sb.auth.onAuthStateChange((_e, s) => { if (s) { setUser(s.user); closeModal(); } else setGuest(); });
@@ -541,7 +552,6 @@ async function handleEmailAuth() {
 async function handleGoogleAuth() {
   await sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.href } });
 }
-
 async function logout() { await sb.auth.signOut(); }
 
 function setPlan(p, el) {
@@ -551,7 +561,7 @@ function setPlan(p, el) {
   quotaMax = p === 'free' ? 3 : p === 'pro' ? 50 : 9999;
   document.getElementById('q1080').classList.toggle('locked', p === 'free');
   document.getElementById('q4k').classList.toggle('locked', p !== 'ultra');
-  document.getElementById('dur15').classList.toggle('locked', p === 'free');
+  document.getElementById('dur10').classList.toggle('locked', p === 'free');
   updateQuota();
 }
 
@@ -559,11 +569,32 @@ function setOpt(el) {
   var parent = el.closest('.option-group');
   parent.querySelectorAll('.opt:not(.locked)').forEach(function(b) { b.classList.remove('active'); });
   el.classList.add('active');
+  selectedStyle = el.dataset.style || selectedStyle;
 }
 
-function handleUpload() {
-  document.getElementById('uploadMain').textContent = '✓ Image uploaded';
-  document.getElementById('pstatus1').textContent = 'Ready';
+function setDur(el) {
+  var parent = el.closest('.option-group');
+  parent.querySelectorAll('.opt:not(.locked)').forEach(function(b) { b.classList.remove('active'); });
+  el.classList.add('active');
+  selectedDuration = parseInt(el.dataset.dur) || 5;
+}
+
+function handleFileSelect(event) {
+  var file = event.target.files[0];
+  if (!file) return;
+  if (file.size > 10 * 1024 * 1024) {
+    alert('File too large. Max 10MB.'); return;
+  }
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    uploadedImageBase64 = e.target.result.split(',')[1];
+    var preview = document.getElementById('uploadPreview');
+    preview.src = e.target.result;
+    preview.style.display = 'block';
+    document.getElementById('uploadPlaceholder').style.display = 'none';
+    document.getElementById('uploadZone').classList.add('has-image');
+  };
+  reader.readAsDataURL(file);
 }
 
 function updateQuota() {
@@ -575,25 +606,118 @@ function updateQuota() {
     : Math.max(0, quotaMax - quotaUsed) + ' / ' + quotaMax + ' remaining today';
 }
 
-function generate() {
-  if (generating) return;
+async function generate() {
   if (!currentUser) { openModal('signup'); return; }
-  if (plan === 'free' && quotaUsed >= quotaMax) { document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' }); return; }
-  generating = true;
-  var btn = document.getElementById('genBtn'); btn.disabled = true;
+  if (!uploadedImageBase64) { alert('Please upload a product image first.'); return; }
+  if (plan === 'free' && quotaUsed >= quotaMax) {
+    document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' }); return;
+  }
+
+  var btn = document.getElementById('genBtn');
+  btn.disabled = true;
   document.getElementById('genBtnIcon').innerHTML = '<span class="spinner"></span>';
-  document.getElementById('genBtnText').textContent = 'Generating...';
-  var top = document.getElementById('pcard1').querySelector('.p-top');
-  var status = document.getElementById('pstatus1');
-  top.classList.add('animating'); status.textContent = 'Processing...'; status.className = 'p-status';
-  setTimeout(function() {
-    top.classList.remove('animating');
-    status.textContent = '✓ Animation ready'; status.className = 'p-status done';
-    generating = false; btn.disabled = false;
-    document.getElementById('genBtnIcon').textContent = '▶';
-    document.getElementById('genBtnText').textContent = 'Generate again';
-    quotaUsed++; updateQuota();
-  }, 3000);
+  document.getElementById('genBtnText').textContent = 'Submitting...';
+
+  setStatus('processing', 'Submitting to AI...');
+
+  try {
+    var response = await fetch('/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        imageBase64: uploadedImageBase64,
+        duration: selectedDuration,
+        style: selectedStyle
+      })
+    });
+
+    var data = await response.json();
+
+    if (!response.ok || data.error) {
+      throw new Error(data.error || 'Generation failed');
+    }
+
+    currentTaskId = data.taskId;
+    setStatus('processing', 'AI is animating your image...');
+    document.getElementById('genBtnText').textContent = 'Processing...';
+    startPolling();
+
+  } catch (err) {
+    setStatus('error', 'Error: ' + err.message);
+    resetBtn();
+  }
+}
+
+function startPolling() {
+  if (pollInterval) clearInterval(pollInterval);
+  pollInterval = setInterval(async function() {
+    try {
+      var response = await fetch('/api/status?taskId=' + currentTaskId);
+      var data = await response.json();
+
+      if (data.status === 'succeed' && data.videoUrl) {
+        clearInterval(pollInterval);
+        showVideo(data.videoUrl);
+        quotaUsed++;
+        updateQuota();
+        resetBtn();
+        setStatus('done', 'Animation ready! ✓');
+      } else if (data.status === 'failed') {
+        clearInterval(pollInterval);
+        setStatus('error', 'Generation failed. Please try again.');
+        resetBtn();
+      }
+    } catch (err) {
+      clearInterval(pollInterval);
+      setStatus('error', 'Error checking status.');
+      resetBtn();
+    }
+  }, 5000);
+}
+
+function showVideo(url) {
+  currentVideoUrl = url;
+  document.getElementById('resultPlaceholder').style.display = 'none';
+  var video = document.getElementById('resultVideo');
+  video.src = url;
+  video.style.display = 'block';
+  document.getElementById('resultActions').style.display = 'flex';
+}
+
+function downloadVideo() {
+  if (!currentVideoUrl) return;
+  var a = document.createElement('a');
+  a.href = currentVideoUrl;
+  a.download = 'motionshop-animation.mp4';
+  a.click();
+}
+
+function resetResult() {
+  currentVideoUrl = null;
+  currentTaskId = null;
+  if (pollInterval) clearInterval(pollInterval);
+  document.getElementById('resultPlaceholder').style.display = 'flex';
+  document.getElementById('resultVideo').style.display = 'none';
+  document.getElementById('resultVideo').src = '';
+  document.getElementById('resultActions').style.display = 'none';
+  document.getElementById('statusBar').style.display = 'none';
+  resetBtn();
+}
+
+function resetBtn() {
+  var btn = document.getElementById('genBtn');
+  btn.disabled = false;
+  document.getElementById('genBtnIcon').textContent = '▶';
+  document.getElementById('genBtnText').textContent = 'Generate animation';
+}
+
+function setStatus(type, text) {
+  var bar = document.getElementById('statusBar');
+  var dot = document.getElementById('statusDot');
+  var textEl = document.getElementById('statusText');
+  bar.style.display = 'flex';
+  dot.className = 'status-dot ' + type;
+  textEl.textContent = text;
 }
 
 document.getElementById('authModal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
