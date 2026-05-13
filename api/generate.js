@@ -1,3 +1,5 @@
+import crypto from 'crypto';
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -13,10 +15,8 @@ export default async function handler(req, res) {
   const secretKey = process.env.KLING_SECRET_KEY;
 
   try {
-    // Generate JWT token for Kling AI
     const jwt = generateJWT(accessKey, secretKey);
 
-    // Submit task to Kling AI
     const taskRes = await fetch('https://api.klingai.com/v1/videos/image2video', {
       method: 'POST',
       headers: {
@@ -27,7 +27,7 @@ export default async function handler(req, res) {
         model_name: 'kling-v1',
         image: imageBase64,
         prompt: getPrompt(style),
-        duration: duration,
+        duration: String(duration),
         cfg_scale: 0.5,
         mode: 'std'
       })
@@ -36,7 +36,7 @@ export default async function handler(req, res) {
     const taskData = await taskRes.json();
 
     if (taskData.code !== 0) {
-      return res.status(500).json({ error: taskData.message });
+      return res.status(500).json({ error: taskData.message || JSON.stringify(taskData) });
     }
 
     return res.status(200).json({ taskId: taskData.data.task_id });
@@ -56,12 +56,15 @@ function getPrompt(style) {
 }
 
 function generateJWT(accessKey, secretKey) {
-  const header = btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
-  const payload = btoa(JSON.stringify({
+  const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64url');
+  const payload = Buffer.from(JSON.stringify({
     iss: accessKey,
     exp: Math.floor(Date.now() / 1000) + 1800,
     nbf: Math.floor(Date.now() / 1000) - 5
-  }));
-  const signature = btoa(`${header}.${payload}.${secretKey}`);
+  })).toString('base64url');
+  const signature = crypto
+    .createHmac('sha256', secretKey)
+    .update(`${header}.${payload}`)
+    .digest('base64url');
   return `${header}.${payload}.${signature}`;
 }
