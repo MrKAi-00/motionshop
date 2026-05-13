@@ -1,3 +1,5 @@
+import crypto from 'crypto';
+
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -38,12 +40,15 @@ export default async function handler(req, res) {
 }
 
 function generateJWT(accessKey, secretKey) {
-  const header = btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
-  const payload = btoa(JSON.stringify({
+  const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64url');
+  const payload = Buffer.from(JSON.stringify({
     iss: accessKey,
     exp: Math.floor(Date.now() / 1000) + 1800,
     nbf: Math.floor(Date.now() / 1000) - 5
-  }));
-  const signature = btoa(`${header}.${payload}.${secretKey}`);
+  })).toString('base64url');
+  const signature = crypto
+    .createHmac('sha256', secretKey)
+    .update(`${header}.${payload}`)
+    .digest('base64url');
   return `${header}.${payload}.${signature}`;
 }
