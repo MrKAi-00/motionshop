@@ -14,7 +14,7 @@ export default async function handler(req, res) {
   try {
     const token = generateToken(accessKey, secretKey);
 
-    const taskRes = await fetch('https://api.klingai.com/v1/videos/image2video', {
+    const taskRes = await fetch('https://api-beijing.klingai.com/v1/videos/image2video', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
