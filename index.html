@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -324,7 +325,7 @@ footer a:hover { color: var(--text); }
           </div>
           <div class="upgrade-box" id="upgradeBox">
             <div class="upgrade-text">Upgrade to Pro · 1080p · No watermark · Unlimited</div>
-            <button class="upgrade-btn" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">Upgrade ↗</button>
+            <button class="upgrade-btn" onclick="openCheckout(PRICE_PRO)">Upgrade ↗</button>
           </div>
         </div>
       </div>
@@ -360,7 +361,7 @@ footer a:hover { color: var(--text); }
           <li><span class="feat-check">✓</span> No watermark</li>
           <li><span class="feat-check">✓</span> Up to 10 seconds</li>
         </ul>
-        <button class="plan-btn plan-btn-fill" onclick="openModal('signup')">Subscribe now</button>
+        <button class="plan-btn plan-btn-fill" onclick="openCheckout(PRICE_PRO)">Subscribe now</button>
       </div>
       <div class="pricing-card">
         <div class="plan-name">Ultra</div>
@@ -373,7 +374,7 @@ footer a:hover { color: var(--text); }
           <li><span class="feat-check">✓</span> Priority queue</li>
           <li><span class="feat-check">✓</span> Dedicated support</li>
         </ul>
-        <button class="plan-btn plan-btn-outline" onclick="openModal('signup')">Get Ultra</button>
+        <button class="plan-btn plan-btn-outline" onclick="openCheckout(PRICE_ULTRA)">Get Ultra</button>
       </div>
     </div>
   </div>
@@ -475,6 +476,14 @@ footer a:hover { color: var(--text); }
 </div>
 
 <script>
+const PRICE_PRO   = 'pri_01krx6xgp4vn8bd27dtw3qyf6y';
+const PRICE_ULTRA = 'pri_01krx70m0670n21d89p9fhrq33';
+
+window.addEventListener('load', function() {
+  Paddle.Environment.set('sandbox');
+  Paddle.Initialize({ token: 'test_aa7875929704f124210c33209b1' });
+});
+
 const SUPABASE_URL = 'https://rkwdteppsxhzalqhghlf.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_eMKtsjOqYob_Pc2D9B8miA_mnNZdXDx';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -553,6 +562,18 @@ async function handleGoogleAuth() {
   await sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.href } });
 }
 async function logout() { await sb.auth.signOut(); }
+
+function openCheckout(priceId) {
+  var email = currentUser ? currentUser.email : null;
+  Paddle.Checkout.open({
+    items: [{ priceId: priceId, quantity: 1 }],
+    customer: email ? { email: email } : undefined,
+    settings: {
+      displayMode: 'overlay',
+      locale: 'zh-Hans',
+    }
+  });
+}
 
 function setPlan(p, el) {
   plan = p;
