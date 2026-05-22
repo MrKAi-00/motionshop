@@ -7,7 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -21,27 +20,18 @@
 }
 html { scroll-behavior: smooth; }
 body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; }
-
-.page { display: none; }
-.page.active { display: block; }
-
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 2rem; height: 60px;
-  background: rgba(10,10,15,0.85); backdrop-filter: blur(16px);
-  border-bottom: 0.5px solid var(--border);
-}
+.page { display: none; } .page.active { display: block; }
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; height: 60px; background: rgba(10,10,15,0.85); backdrop-filter: blur(16px); border-bottom: 0.5px solid var(--border); }
 .nav-logo { font-size: 18px; font-weight: 600; letter-spacing: -0.5px; cursor: pointer; }
 .nav-logo span { color: var(--accent2); }
 .nav-right { display: flex; gap: 10px; align-items: center; }
 .nav-user { font-size: 12px; color: var(--text2); max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nav-plan-badge { font-size: 11px; font-family: 'DM Mono', monospace; padding: 2px 8px; border-radius: 99px; background: var(--accent-bg); color: var(--accent2); border: 0.5px solid rgba(108,99,255,0.3); }
 .nav-btn { font-size: 13px; font-weight: 500; padding: 7px 16px; border-radius: var(--radius); border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s; }
 .nav-btn-ghost { background: transparent; color: var(--text2); border: 0.5px solid var(--border2); }
 .nav-btn-ghost:hover { color: var(--text); background: var(--bg2); }
 .nav-btn-fill { background: var(--accent); color: #fff; }
 .nav-btn-fill:hover { opacity: 0.85; }
-
 .modal-overlay { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); align-items: center; justify-content: center; }
 .modal-overlay.open { display: flex; }
 .modal { background: var(--bg2); border: 0.5px solid var(--border2); border-radius: var(--radius-lg); padding: 2rem; width: 100%; max-width: 400px; margin: 1rem; position: relative; }
@@ -68,7 +58,6 @@ nav {
 .msg { font-size: 13px; padding: 8px 12px; border-radius: var(--radius); margin-top: 10px; }
 .msg-error { background: rgba(248,113,113,0.1); color: var(--red); }
 .msg-success { background: var(--green-bg); color: var(--green); }
-
 .hero { padding: 140px 2rem 80px; text-align: center; max-width: 760px; margin: 0 auto; }
 .hero-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-family: 'DM Mono', monospace; color: var(--accent2); background: var(--accent-bg); border: 0.5px solid rgba(108,99,255,0.3); padding: 4px 12px; border-radius: 99px; margin-bottom: 1.5rem; }
 .hero h1 { font-size: clamp(36px, 6vw, 64px); font-weight: 600; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 1.25rem; }
@@ -79,12 +68,9 @@ nav {
 .btn-primary:hover { opacity: 0.85; }
 .btn-ghost { font-size: 15px; font-weight: 500; background: transparent; color: var(--text2); padding: 12px 28px; border-radius: var(--radius); border: 0.5px solid var(--border2); cursor: pointer; transition: all 0.15s; }
 .btn-ghost:hover { color: var(--text); background: var(--bg2); }
-
 .section { max-width: 900px; margin: 0 auto; padding: 0 2rem 5rem; }
 .section-label { font-size: 12px; font-family: 'DM Mono', monospace; color: var(--text3); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 0.5rem; }
 .section-title { font-size: 28px; font-weight: 600; letter-spacing: -0.5px; margin-bottom: 2rem; }
-
-/* APP */
 .app-container { background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
 .app-header { padding: 1.25rem 1.5rem; border-bottom: 0.5px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
 .app-title { font-size: 15px; font-weight: 500; }
@@ -95,8 +81,6 @@ nav {
 @media (max-width: 640px) { .app-body { grid-template-columns: 1fr; } }
 .app-left { padding: 1.5rem; border-right: 0.5px solid var(--border); }
 .app-right { padding: 1.5rem; }
-
-/* UPLOAD */
 .upload-zone { border: 1px dashed var(--border2); border-radius: var(--radius); padding: 1.5rem 1rem; text-align: center; cursor: pointer; transition: all 0.2s; background: var(--bg3); margin-bottom: 1rem; position: relative; overflow: hidden; }
 .upload-zone:hover { border-color: var(--accent); background: var(--accent-bg); }
 .upload-zone.has-image { border-color: var(--green); background: var(--green-bg); }
@@ -105,30 +89,24 @@ nav {
 .upload-sub { font-size: 11px; color: var(--text3); margin-top: 3px; }
 .upload-preview { width: 100%; max-height: 120px; object-fit: contain; border-radius: var(--radius); margin-bottom: 6px; }
 #fileInput { display: none; }
-
 .field-label { font-size: 12px; color: var(--text3); margin-bottom: 6px; }
 .option-group { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1rem; }
 .opt { font-size: 12px; padding: 5px 11px; border-radius: var(--radius); border: 0.5px solid var(--border); background: var(--bg3); color: var(--text2); cursor: pointer; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
 .opt.active { background: var(--accent-bg); border-color: rgba(108,99,255,0.4); color: var(--accent2); }
 .opt.locked { opacity: 0.38; cursor: not-allowed; }
 .lock-pill { font-size: 10px; padding: 2px 6px; background: rgba(245,158,11,0.1); color: var(--amber); border-radius: 99px; font-family: 'DM Mono', monospace; }
-
 .login-wall { background: var(--bg3); border: 1px dashed var(--border2); border-radius: var(--radius); padding: 1.5rem; text-align: center; margin-top: 0.5rem; }
 .login-wall-icon { font-size: 28px; margin-bottom: 8px; }
 .login-wall-text { font-size: 13px; color: var(--text2); margin-bottom: 1rem; }
 .login-wall-btn { font-size: 13px; font-weight: 500; background: var(--accent); color: #fff; padding: 9px 22px; border-radius: var(--radius); border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; }
-
 .gen-btn { width: 100%; padding: 11px; background: var(--accent); color: #fff; border: none; border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 0.5rem; transition: opacity 0.15s; }
 .gen-btn:hover { opacity: 0.85; }
 .gen-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-
 .quota-wrap { margin-top: 1rem; }
 .quota-row { display: flex; justify-content: space-between; margin-bottom: 4px; }
 .quota-count { font-size: 12px; color: var(--text3); }
 .quota-track { height: 3px; background: var(--bg3); border-radius: 2px; overflow: hidden; }
 .quota-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.5s ease; }
-
-/* RESULT */
 .result-area { margin-top: 1rem; }
 .result-card { background: var(--bg3); border: 0.5px solid var(--border); border-radius: var(--radius); overflow: hidden; }
 .result-video { width: 100%; display: block; border-radius: var(--radius); }
@@ -139,20 +117,17 @@ nav {
 .result-btn:hover { background: var(--bg2); color: var(--text); }
 .result-btn.primary { background: var(--accent); color: #fff; border-color: transparent; }
 .result-btn.primary:hover { opacity: 0.85; }
-
-/* STATUS */
 .status-bar { display: flex; align-items: center; gap: 8px; padding: 10px 12px; background: var(--bg3); border-radius: var(--radius); margin-top: 10px; font-size: 13px; color: var(--text2); }
 .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text3); flex-shrink: 0; }
 .status-dot.processing { background: var(--amber); animation: pulse 1s infinite; }
 .status-dot.done { background: var(--green); }
 .status-dot.error { background: var(--red); }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-
 .upgrade-box { background: var(--accent-bg); border: 0.5px solid rgba(108,99,255,0.25); border-radius: var(--radius); padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 1rem; }
 .upgrade-text { font-size: 12px; color: var(--accent2); line-height: 1.5; }
 .upgrade-btn { font-size: 12px; font-weight: 500; background: var(--accent); color: #fff; padding: 6px 14px; border-radius: var(--radius); border: none; cursor: pointer; white-space: nowrap; font-family: 'DM Sans', sans-serif; }
-
-/* PRICING */
+.pro-badge-box { background: var(--green-bg); border: 0.5px solid rgba(45,212,191,0.25); border-radius: var(--radius); padding: 12px 14px; display: flex; align-items: center; gap: 10px; margin-top: 1rem; }
+.pro-badge-text { font-size: 12px; color: var(--green); line-height: 1.5; }
 .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
 .pricing-card { background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; position: relative; }
 .pricing-card.featured { border-color: rgba(108,99,255,0.5); background: linear-gradient(160deg, rgba(108,99,255,0.08) 0%, var(--bg2) 60%); }
@@ -170,8 +145,7 @@ nav {
 .plan-btn-outline:hover { background: var(--bg3); color: var(--text); }
 .plan-btn-fill { background: var(--accent); color: #fff; border: none; }
 .plan-btn-fill:hover { opacity: 0.85; }
-
-/* LEGAL */
+.plan-btn-current { background: var(--green-bg); color: var(--green); border: 0.5px solid rgba(45,212,191,0.3); cursor: default; }
 .legal-page { padding: 100px 2rem 4rem; max-width: 720px; margin: 0 auto; }
 .legal-page h1 { font-size: 28px; font-weight: 600; margin-bottom: 0.5rem; }
 .legal-page .updated { font-size: 13px; color: var(--text3); margin-bottom: 2rem; }
@@ -180,11 +154,9 @@ nav {
 .legal-page ul { padding-left: 1.25rem; margin-bottom: 0.75rem; }
 .legal-page ul li { font-size: 14px; color: var(--text2); line-height: 1.8; }
 .back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--accent2); cursor: pointer; margin-bottom: 1.5rem; background: none; border: none; font-family: 'DM Sans', sans-serif; }
-
 footer { border-top: 0.5px solid var(--border); padding: 2rem; text-align: center; color: var(--text3); font-size: 13px; }
 footer a { color: var(--text2); text-decoration: none; cursor: pointer; }
 footer a:hover { color: var(--text); }
-
 @keyframes spin-loader { to { transform: rotate(360deg); } }
 .spinner { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin-loader 0.7s linear infinite; display: inline-block; vertical-align: middle; }
 </style>
@@ -195,13 +167,13 @@ footer a:hover { color: var(--text); }
   <div class="nav-logo" onclick="showPage('home')">Motion<span>Shop</span></div>
   <div class="nav-right">
     <span class="nav-user" id="navUserEmail"></span>
+    <span class="nav-plan-badge" id="navPlanBadge" style="display:none"></span>
     <button class="nav-btn nav-btn-ghost" id="navLoginBtn" onclick="openModal('login')" style="display:none">Log in</button>
     <button class="nav-btn nav-btn-fill" id="navSignupBtn" onclick="openModal('signup')" style="display:none">Get started free</button>
     <button class="nav-btn nav-btn-ghost" id="navLogoutBtn" onclick="logout()" style="display:none">Log out</button>
   </div>
 </nav>
 
-<!-- AUTH MODAL -->
 <div class="modal-overlay" id="authModal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">×</button>
@@ -229,7 +201,6 @@ footer a:hover { color: var(--text); }
   </div>
 </div>
 
-<!-- HOME PAGE -->
 <div class="page active" id="page-home">
   <div class="hero">
     <div class="hero-badge">✦ Built for e-commerce sellers</div>
@@ -255,7 +226,6 @@ footer a:hover { color: var(--text); }
       </div>
       <div class="app-body">
         <div class="app-left">
-          <!-- Upload Zone -->
           <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
             <img id="uploadPreview" class="upload-preview" style="display:none" />
             <div id="uploadPlaceholder">
@@ -265,33 +235,28 @@ footer a:hover { color: var(--text); }
             </div>
           </div>
           <input type="file" id="fileInput" accept="image/*" onchange="handleFileSelect(event)" />
-
           <div class="field-label">Animation style</div>
           <div class="option-group">
             <button class="opt active" data-style="spin" onclick="setOpt(this)">360° Spin</button>
             <button class="opt" data-style="float" onclick="setOpt(this)">Float</button>
             <button class="opt" data-style="light" onclick="setOpt(this)">Light sweep</button>
           </div>
-
           <div class="field-label">Duration</div>
           <div class="option-group">
             <button class="opt active" data-dur="5" onclick="setDur(this)">5s</button>
             <button class="opt locked" id="dur10" data-dur="10">10s <span class="lock-pill">Pro</span></button>
           </div>
-
           <div class="field-label">Quality</div>
           <div class="option-group">
             <button class="opt active">720p</button>
             <button class="opt locked" id="q1080">1080p <span class="lock-pill">Pro</span></button>
             <button class="opt locked" id="q4k">4K <span class="lock-pill">Ultra</span></button>
           </div>
-
           <div id="loginWall" class="login-wall">
             <div class="login-wall-icon">🔒</div>
             <div class="login-wall-text">Sign up free to generate your first animation</div>
             <button class="login-wall-btn" onclick="openModal('signup')">Get started free</button>
           </div>
-
           <div id="genArea" style="display:none">
             <button class="gen-btn" id="genBtn" onclick="generate()">
               <span id="genBtnIcon">▶</span>
@@ -307,7 +272,6 @@ footer a:hover { color: var(--text); }
             </div>
           </div>
         </div>
-
         <div class="app-right">
           <div class="field-label" style="margin-bottom:10px;">Result</div>
           <div class="result-area">
@@ -326,6 +290,9 @@ footer a:hover { color: var(--text); }
           <div class="upgrade-box" id="upgradeBox">
             <div class="upgrade-text">Upgrade to Pro · 1080p · No watermark · Unlimited</div>
             <button class="upgrade-btn" onclick="openCheckout(PRICE_PRO)">Upgrade ↗</button>
+          </div>
+          <div class="pro-badge-box" id="proBadgeBox" style="display:none">
+            <div class="pro-badge-text">✓ Pro plan active · Enjoy unlimited generations</div>
           </div>
         </div>
       </div>
@@ -361,7 +328,7 @@ footer a:hover { color: var(--text); }
           <li><span class="feat-check">✓</span> No watermark</li>
           <li><span class="feat-check">✓</span> Up to 10 seconds</li>
         </ul>
-        <button class="plan-btn plan-btn-fill" onclick="openCheckout(PRICE_PRO)">Subscribe now</button>
+        <button class="plan-btn plan-btn-fill" id="proPlanBtn" onclick="openCheckout(PRICE_PRO)">Subscribe now</button>
       </div>
       <div class="pricing-card">
         <div class="plan-name">Ultra</div>
@@ -374,7 +341,7 @@ footer a:hover { color: var(--text); }
           <li><span class="feat-check">✓</span> Priority queue</li>
           <li><span class="feat-check">✓</span> Dedicated support</li>
         </ul>
-        <button class="plan-btn plan-btn-outline" onclick="openCheckout(PRICE_ULTRA)">Get Ultra</button>
+        <button class="plan-btn plan-btn-outline" id="ultraPlanBtn" onclick="openCheckout(PRICE_ULTRA)">Get Ultra</button>
       </div>
     </div>
   </div>
@@ -388,107 +355,77 @@ footer a:hover { color: var(--text); }
   </footer>
 </div>
 
-<!-- TERMS -->
 <div class="page" id="page-terms">
   <div class="legal-page">
     <button class="back-link" onclick="showPage('home')">← Back to MotionShop</button>
     <h1>Terms of Service</h1>
     <p class="updated">Last updated: January 1, 2026</p>
     <p>Welcome to MotionShop. By accessing or using our service, you agree to be bound by these Terms of Service.</p>
-    <h2>1. Use of Service</h2>
-    <p>MotionShop provides an AI-powered image animation service for e-commerce sellers. You may use the service only for lawful purposes and in accordance with these Terms.</p>
-    <h2>2. Account Registration</h2>
-    <p>You must create an account to use certain features. You are responsible for maintaining the confidentiality of your account credentials and for all activities under your account.</p>
-    <h2>3. Subscription and Payments</h2>
-    <p>Paid subscriptions are billed monthly. Payments are processed securely through Paddle. Prices are listed in USD and may vary by region due to local taxes.</p>
-    <h2>4. Intellectual Property</h2>
-    <p>You retain ownership of images you upload. Generated animations are owned by you. By uploading content, you grant MotionShop a limited license to process your images to provide the service.</p>
-    <h2>5. Prohibited Uses</h2>
-    <ul>
-      <li>Using the service to generate illegal, harmful, or offensive content</li>
-      <li>Attempting to reverse-engineer or copy our AI models</li>
-      <li>Reselling or redistributing the service without authorization</li>
-      <li>Uploading content that infringes third-party intellectual property rights</li>
-    </ul>
-    <h2>6. Disclaimers</h2>
-    <p>The service is provided "as is" without warranties of any kind. We do not guarantee that the service will be uninterrupted or error-free.</p>
-    <h2>7. Limitation of Liability</h2>
-    <p>To the fullest extent permitted by law, MotionShop shall not be liable for any indirect, incidental, or consequential damages arising from your use of the service.</p>
-    <h2>8. Contact</h2>
-    <p>For questions about these Terms, please contact us at support@motionshop.ai</p>
+    <h2>1. Use of Service</h2><p>MotionShop provides an AI-powered image animation service for e-commerce sellers. You may use the service only for lawful purposes and in accordance with these Terms.</p>
+    <h2>2. Account Registration</h2><p>You must create an account to use certain features. You are responsible for maintaining the confidentiality of your account credentials and for all activities under your account.</p>
+    <h2>3. Subscription and Payments</h2><p>Paid subscriptions are billed monthly. Payments are processed securely through Paddle. Prices are listed in USD and may vary by region due to local taxes.</p>
+    <h2>4. Intellectual Property</h2><p>You retain ownership of images you upload. Generated animations are owned by you. By uploading content, you grant MotionShop a limited license to process your images to provide the service.</p>
+    <h2>5. Prohibited Uses</h2><ul><li>Using the service to generate illegal, harmful, or offensive content</li><li>Attempting to reverse-engineer or copy our AI models</li><li>Reselling or redistributing the service without authorization</li><li>Uploading content that infringes third-party intellectual property rights</li></ul>
+    <h2>6. Disclaimers</h2><p>The service is provided "as is" without warranties of any kind. We do not guarantee that the service will be uninterrupted or error-free.</p>
+    <h2>7. Limitation of Liability</h2><p>To the fullest extent permitted by law, MotionShop shall not be liable for any indirect, incidental, or consequential damages arising from your use of the service.</p>
+    <h2>8. Contact</h2><p>For questions about these Terms, please contact us at support@motionshop.ai</p>
   </div>
   <footer><p>© 2026 MotionShop · <a onclick="showPage('terms')">Terms of Service</a> · <a onclick="showPage('privacy')">Privacy Policy</a> · <a onclick="showPage('refund')">Refund Policy</a></p></footer>
 </div>
 
-<!-- PRIVACY -->
 <div class="page" id="page-privacy">
   <div class="legal-page">
     <button class="back-link" onclick="showPage('home')">← Back to MotionShop</button>
     <h1>Privacy Policy</h1>
     <p class="updated">Last updated: January 1, 2026</p>
     <p>MotionShop is committed to protecting your privacy. This policy explains how we collect, use, and protect your information.</p>
-    <h2>1. Information We Collect</h2>
-    <ul>
-      <li>Account information: email address, name</li>
-      <li>Usage data: features used, generations created</li>
-      <li>Images you upload for animation processing</li>
-      <li>Payment information (processed by Paddle, not stored by us)</li>
-    </ul>
-    <h2>2. How We Use Your Information</h2>
-    <ul>
-      <li>To provide and improve our service</li>
-      <li>To process payments and manage subscriptions</li>
-      <li>To send service-related communications</li>
-      <li>To prevent fraud and ensure security</li>
-    </ul>
-    <h2>3. Data Storage</h2>
-    <p>Your account data is stored securely using Supabase infrastructure. Uploaded images are processed and deleted within 24 hours unless you choose to save them.</p>
-    <h2>4. Data Sharing</h2>
-    <p>We do not sell your personal data. We share data only with service providers necessary to operate our service.</p>
-    <h2>5. Your Rights</h2>
-    <p>You have the right to access, correct, or delete your personal data. Contact us at support@motionshop.ai</p>
+    <h2>1. Information We Collect</h2><ul><li>Account information: email address, name</li><li>Usage data: features used, generations created</li><li>Images you upload for animation processing</li><li>Payment information (processed by Paddle, not stored by us)</li></ul>
+    <h2>2. How We Use Your Information</h2><ul><li>To provide and improve our service</li><li>To process payments and manage subscriptions</li><li>To send service-related communications</li><li>To prevent fraud and ensure security</li></ul>
+    <h2>3. Data Storage</h2><p>Your account data is stored securely using Supabase infrastructure. Uploaded images are processed and deleted within 24 hours unless you choose to save them.</p>
+    <h2>4. Data Sharing</h2><p>We do not sell your personal data. We share data only with service providers necessary to operate our service.</p>
+    <h2>5. Your Rights</h2><p>You have the right to access, correct, or delete your personal data. Contact us at support@motionshop.ai</p>
   </div>
   <footer><p>© 2026 MotionShop · <a onclick="showPage('terms')">Terms of Service</a> · <a onclick="showPage('privacy')">Privacy Policy</a> · <a onclick="showPage('refund')">Refund Policy</a></p></footer>
 </div>
 
-<!-- REFUND -->
 <div class="page" id="page-refund">
   <div class="legal-page">
     <button class="back-link" onclick="showPage('home')">← Back to MotionShop</button>
     <h1>Refund Policy</h1>
     <p class="updated">Last updated: January 1, 2026</p>
     <p>We want you to be completely satisfied with MotionShop.</p>
-    <h2>1. 7-Day Money-Back Guarantee</h2>
-    <p>If you are not satisfied with your subscription for any reason, you may request a full refund within 7 days of your initial purchase. No questions asked.</p>
-    <h2>2. How to Request a Refund</h2>
-    <p>Email us at support@motionshop.ai with your account email and order details. We will process your refund within 5 business days.</p>
-    <h2>3. Subscription Cancellations</h2>
-    <p>You may cancel your subscription at any time. Cancellation takes effect at the end of the current billing period.</p>
-    <h2>4. Exceptions</h2>
-    <ul>
-      <li>Refunds are not available after 7 days of the initial purchase</li>
-      <li>Accounts in violation of our Terms of Service are not eligible for refunds</li>
-    </ul>
-    <h2>5. Contact</h2>
-    <p>For refund requests, contact us at support@motionshop.ai</p>
+    <h2>1. 7-Day Money-Back Guarantee</h2><p>If you are not satisfied with your subscription for any reason, you may request a full refund within 7 days of your initial purchase. No questions asked.</p>
+    <h2>2. How to Request a Refund</h2><p>Email us at support@motionshop.ai with your account email and order details. We will process your refund within 5 business days.</p>
+    <h2>3. Subscription Cancellations</h2><p>You may cancel your subscription at any time. Cancellation takes effect at the end of the current billing period.</p>
+    <h2>4. Exceptions</h2><ul><li>Refunds are not available after 7 days of the initial purchase</li><li>Accounts in violation of our Terms of Service are not eligible for refunds</li></ul>
+    <h2>5. Contact</h2><p>For refund requests, contact us at support@motionshop.ai</p>
   </div>
   <footer><p>© 2026 MotionShop · <a onclick="showPage('terms')">Terms of Service</a> · <a onclick="showPage('privacy')">Privacy Policy</a> · <a onclick="showPage('refund')">Refund Policy</a></p></footer>
 </div>
 
+<!-- Paddle loaded at bottom of body to ensure it's ready before scripts run -->
+<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
 <script>
 const PRICE_PRO   = 'pri_01krx6xgp4vn8bd27dtw3qyf6y';
 const PRICE_ULTRA = 'pri_01krx70m0670n21d89p9fhrq33';
 
-window.addEventListener('load', function() {
-  Paddle.Environment.set('sandbox');
-  Paddle.Initialize({ token: 'test_aa7875929704f124210c33209b1' });
-});
+// Wait for Paddle to be fully ready
+function initPaddle() {
+  if (typeof Paddle !== 'undefined') {
+    Paddle.Environment.set('sandbox');
+    Paddle.Initialize({ token: 'test_aa7875929704f124210c33209b1' });
+  } else {
+    setTimeout(initPaddle, 100);
+  }
+}
+initPaddle();
 
 const SUPABASE_URL = 'https://rkwdteppsxhzalqhghlf.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_eMKtsjOqYob_Pc2D9B8miA_mnNZdXDx';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 var currentUser = null, currentTab = 'login';
+var userProfile = null;
 var plan = 'free', quotaUsed = 0, quotaMax = 3;
 var selectedStyle = 'spin', selectedDuration = 5;
 var uploadedImageBase64 = null;
@@ -501,10 +438,39 @@ function showPage(name) {
   window.scrollTo(0, 0);
 }
 
+async function loadProfile(userId) {
+  try {
+    var result = await sb.from('profiles').select('*').eq('id', userId).single();
+    if (result.data) { userProfile = result.data; applyProfileUI(); }
+  } catch(e) { /* no profile yet, stay free */ }
+}
+
+function applyProfileUI() {
+  var isPro = userProfile && userProfile.is_pro;
+  var planName = (userProfile && userProfile.plan) ? userProfile.plan : 'free';
+  var badge = document.getElementById('navPlanBadge');
+  if (isPro) { badge.textContent = planName.toUpperCase(); badge.style.display = 'inline-block'; }
+  else { badge.style.display = 'none'; }
+  document.getElementById('upgradeBox').style.display = isPro ? 'none' : 'flex';
+  document.getElementById('proBadgeBox').style.display = isPro ? 'flex' : 'none';
+  if (isPro) {
+    var proBtn = document.getElementById('proPlanBtn');
+    proBtn.textContent = '✓ Current plan';
+    proBtn.className = 'plan-btn plan-btn-current';
+    proBtn.onclick = null;
+  }
+  quotaMax = isPro ? (planName === 'ultra' ? 9999 : 50) : 3;
+  updateQuota();
+}
+
 async function init() {
   const { data: { session } } = await sb.auth.getSession();
-  if (session) setUser(session.user); else setGuest();
-  sb.auth.onAuthStateChange((_e, s) => { if (s) { setUser(s.user); closeModal(); } else setGuest(); });
+  if (session) { setUser(session.user); await loadProfile(session.user.id); }
+  else { setGuest(); }
+  sb.auth.onAuthStateChange(async function(_e, s) {
+    if (s) { setUser(s.user); closeModal(); await loadProfile(s.user.id); }
+    else { setGuest(); }
+  });
 }
 
 function setUser(u) {
@@ -518,13 +484,16 @@ function setUser(u) {
 }
 
 function setGuest() {
-  currentUser = null;
+  currentUser = null; userProfile = null;
   document.getElementById('navUserEmail').textContent = '';
+  document.getElementById('navPlanBadge').style.display = 'none';
   document.getElementById('navLoginBtn').style.display = 'block';
   document.getElementById('navSignupBtn').style.display = 'block';
   document.getElementById('navLogoutBtn').style.display = 'none';
   document.getElementById('loginWall').style.display = 'block';
   document.getElementById('genArea').style.display = 'none';
+  document.getElementById('upgradeBox').style.display = 'flex';
+  document.getElementById('proBadgeBox').style.display = 'none';
 }
 
 function openModal(tab) { document.getElementById('authModal').classList.add('open'); switchTab(tab || 'login'); document.getElementById('authMsg').innerHTML = ''; }
@@ -564,14 +533,12 @@ async function handleGoogleAuth() {
 async function logout() { await sb.auth.signOut(); }
 
 function openCheckout(priceId) {
+  if (typeof Paddle === 'undefined') { alert('Payment system loading, please try again in a moment.'); return; }
   var email = currentUser ? currentUser.email : null;
   Paddle.Checkout.open({
     items: [{ priceId: priceId, quantity: 1 }],
     customer: email ? { email: email } : undefined,
-    settings: {
-      displayMode: 'overlay',
-      locale: 'zh-Hans',
-    }
+    settings: { displayMode: 'overlay', locale: 'zh-Hans' }
   });
 }
 
@@ -603,15 +570,12 @@ function setDur(el) {
 function handleFileSelect(event) {
   var file = event.target.files[0];
   if (!file) return;
-  if (file.size > 10 * 1024 * 1024) {
-    alert('File too large. Max 10MB.'); return;
-  }
+  if (file.size > 10 * 1024 * 1024) { alert('File too large. Max 10MB.'); return; }
   var reader = new FileReader();
   reader.onload = function(e) {
     uploadedImageBase64 = e.target.result.split(',')[1];
     var preview = document.getElementById('uploadPreview');
-    preview.src = e.target.result;
-    preview.style.display = 'block';
+    preview.src = e.target.result; preview.style.display = 'block';
     document.getElementById('uploadPlaceholder').style.display = 'none';
     document.getElementById('uploadZone').classList.add('has-image');
   };
@@ -619,54 +583,39 @@ function handleFileSelect(event) {
 }
 
 function updateQuota() {
+  var isPro = userProfile && userProfile.is_pro;
+  var planName = (userProfile && userProfile.plan) ? userProfile.plan : 'free';
   var pct = Math.min((quotaUsed / quotaMax) * 100, 100);
   document.getElementById('quotaFill').style.width = pct + '%';
-  document.getElementById('quotaLabel').textContent = plan === 'ultra'
-    ? 'Ultra · Unlimited'
-    : plan === 'pro' ? 'Pro · ' + quotaUsed + ' used today'
-    : Math.max(0, quotaMax - quotaUsed) + ' / ' + quotaMax + ' remaining today';
+  if (isPro) {
+    document.getElementById('quotaLabel').textContent = planName === 'ultra' ? 'Ultra · Unlimited' : 'Pro · ' + quotaUsed + ' used today';
+  } else {
+    document.getElementById('quotaLabel').textContent = Math.max(0, quotaMax - quotaUsed) + ' / ' + quotaMax + ' remaining today';
+  }
 }
 
 async function generate() {
   if (!currentUser) { openModal('signup'); return; }
   if (!uploadedImageBase64) { alert('Please upload a product image first.'); return; }
-  if (plan === 'free' && quotaUsed >= quotaMax) {
-    document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' }); return;
-  }
-
+  var isPro = userProfile && userProfile.is_pro;
+  if (!isPro && quotaUsed >= quotaMax) { document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' }); return; }
   var btn = document.getElementById('genBtn');
   btn.disabled = true;
   document.getElementById('genBtnIcon').innerHTML = '<span class="spinner"></span>';
   document.getElementById('genBtnText').textContent = 'Submitting...';
-
   setStatus('processing', 'Submitting to AI...');
-
   try {
     var response = await fetch('/api/generate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        imageBase64: uploadedImageBase64,
-        duration: selectedDuration,
-        style: selectedStyle
-      })
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ imageBase64: uploadedImageBase64, duration: selectedDuration, style: selectedStyle })
     });
-
     var data = await response.json();
-
-    if (!response.ok || data.error) {
-      throw new Error(data.error || 'Generation failed');
-    }
-
+    if (!response.ok || data.error) throw new Error(data.error || 'Generation failed');
     currentTaskId = data.taskId;
     setStatus('processing', 'AI is animating your image...');
     document.getElementById('genBtnText').textContent = 'Processing...';
     startPolling();
-
-  } catch (err) {
-    setStatus('error', 'Error: ' + err.message);
-    resetBtn();
-  }
+  } catch (err) { setStatus('error', 'Error: ' + err.message); resetBtn(); }
 }
 
 function startPolling() {
@@ -675,24 +624,12 @@ function startPolling() {
     try {
       var response = await fetch('/api/status?taskId=' + currentTaskId);
       var data = await response.json();
-
       if (data.status === 'succeed' && data.videoUrl) {
-        clearInterval(pollInterval);
-        showVideo(data.videoUrl);
-        quotaUsed++;
-        updateQuota();
-        resetBtn();
-        setStatus('done', 'Animation ready! ✓');
+        clearInterval(pollInterval); showVideo(data.videoUrl); quotaUsed++; updateQuota(); resetBtn(); setStatus('done', 'Animation ready! ✓');
       } else if (data.status === 'failed') {
-        clearInterval(pollInterval);
-        setStatus('error', 'Generation failed. Please try again.');
-        resetBtn();
+        clearInterval(pollInterval); setStatus('error', 'Generation failed. Please try again.'); resetBtn();
       }
-    } catch (err) {
-      clearInterval(pollInterval);
-      setStatus('error', 'Error checking status.');
-      resetBtn();
-    }
+    } catch (err) { clearInterval(pollInterval); setStatus('error', 'Error checking status.'); resetBtn(); }
   }, 5000);
 }
 
@@ -700,22 +637,17 @@ function showVideo(url) {
   currentVideoUrl = url;
   document.getElementById('resultPlaceholder').style.display = 'none';
   var video = document.getElementById('resultVideo');
-  video.src = url;
-  video.style.display = 'block';
+  video.src = url; video.style.display = 'block';
   document.getElementById('resultActions').style.display = 'flex';
 }
 
 function downloadVideo() {
   if (!currentVideoUrl) return;
-  var a = document.createElement('a');
-  a.href = currentVideoUrl;
-  a.download = 'motionshop-animation.mp4';
-  a.click();
+  var a = document.createElement('a'); a.href = currentVideoUrl; a.download = 'motionshop-animation.mp4'; a.click();
 }
 
 function resetResult() {
-  currentVideoUrl = null;
-  currentTaskId = null;
+  currentVideoUrl = null; currentTaskId = null;
   if (pollInterval) clearInterval(pollInterval);
   document.getElementById('resultPlaceholder').style.display = 'flex';
   document.getElementById('resultVideo').style.display = 'none';
@@ -726,8 +658,7 @@ function resetResult() {
 }
 
 function resetBtn() {
-  var btn = document.getElementById('genBtn');
-  btn.disabled = false;
+  var btn = document.getElementById('genBtn'); btn.disabled = false;
   document.getElementById('genBtnIcon').textContent = '▶';
   document.getElementById('genBtnText').textContent = 'Generate animation';
 }
@@ -735,10 +666,8 @@ function resetBtn() {
 function setStatus(type, text) {
   var bar = document.getElementById('statusBar');
   var dot = document.getElementById('statusDot');
-  var textEl = document.getElementById('statusText');
-  bar.style.display = 'flex';
-  dot.className = 'status-dot ' + type;
-  textEl.textContent = text;
+  bar.style.display = 'flex'; dot.className = 'status-dot ' + type;
+  document.getElementById('statusText').textContent = text;
 }
 
 document.getElementById('authModal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
